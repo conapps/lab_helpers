@@ -15,12 +15,13 @@ exports = module.exports = {
       : resource;
     return `${PREFIX}${resource}/${prefix}/${path}/`
   },
-  handleSuccess: function (res, result) {
-    return res.status(200).json(result);  
+  handleSuccess: function (res, result, {status = 200} = {}) {
+    return res.status(status).json(result);  
   },
   handleError: function (res, error) {
     if (error instanceof Error === true) {
-      console.error(error);
+      if (process.env.NODE_ENV === 'development')
+        console.error(error);
       message = error.message;
     } else {
       console.log(error);

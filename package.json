@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js --ignore db/*"
+    "serve": "NODE_ENV=development nodemon index.js --ignore db/*"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cuid": "^2.1.4",
@@ -19,10 +20,14 @@
     "errorhandler": "^1.5.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
     "logger": "0.0.1",
     "lowdb": "^1.0.0",
     "morgan": "^1.9.1",
-    "multer": "^1.4.1"
+    "multer": "^1.4.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.4"

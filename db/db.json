@@ -100,5 +100,14 @@
         }
       }
     }
+  ],
+  "users": [
+    {
+      "email": "gmonne@conatel.com.uy",
+      "password": "$2a$10$OstShZcHRzHZCWXjQE5dMecbRRPcAsTxjGNCYTqME3voMKJUBWdnC",
+      "username": "gmonne",
+      "name": "Guzman Monne",
+      "role": "admin"
+    }
   ]
 }
