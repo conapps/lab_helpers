@@ -10,9 +10,10 @@ const cuid = require('cuid');
 
 const asyncMiddleware = require('../middlewares/async.js');
 const { makeURL } = require('../modules/utils.js');
+const db = require('../modules/db.js');
 /** Creación del router de express */
 const router = express.Router();
-const type = 'file';
+const type = 'files';
 const prefix = 'uploads';
 /** Exports */
 exports = module.exports = router
@@ -30,15 +31,17 @@ router.post('/text', asyncMiddleware(async (req, res, next) => {
   }
   const filePath = makePath(filename);
   console.log(filePath);
-  fs.writeFile(filePath, body, () => 
-    res.status(200).json({
+  fs.writeFile(filePath, body, () => {
+    const result = {
       id: cuid(),
       type,
       url: makeURL('files', filename, {resource: ''}),
       created: new Date().toISOString(),
       filename
-    })
-  );
+    };
+    db.get(types).push(result);
+    res.status(200).json(result);
+  });
 }));
 router.post('/json', asyncMiddleware(async (req, res, next) => {
   let json = req.body.json;
@@ -67,17 +70,19 @@ router.post('/json', asyncMiddleware(async (req, res, next) => {
   }
   const filename = `${id}.json`;
   const filePath = makePath(filename);
-  fs.appendFile(filePath, JSON.stringify(json), () => 
+  fs.appendFile(filePath, JSON.stringify(json), () => {
+    const result = {
+      id,
+      type: 'document',
+      url: makeURL('documents', id),
+      created: new Date().toISOString(),
+      filename
+    };
+    db.get(type).push(Object.assign({}, result, {data}));
     res
       .status(200)
-      .json({
-        id,
-        type: 'document',
-        url: makeURL('documents', id),
-        created: new Date().toISOString(),
-        filename
-      })
-  );
+      .json(result);
+  });
 }));
 /** Function */
 function makePath (filename) {

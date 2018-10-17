@@ -40,18 +40,26 @@ app.use(session({
   cookie: { maxAge: 1209600000 }, // two weeks in ms
 }));
 app.disable('x-powered-by');
-app.use('/files', express.static(path.join(__dirname, 'uploads'), {maxAge: 31557600000}));
 /** Custom Routes  */
 app.get('/api', asyncMiddleware(async (req, res, next) => {
   res.status(200).json({
-    "description": "AWX Helper API",
-    "current_version": "/api/v1/",
-    "available_versions": {
-      "v1": "/api/v1/"
+    description: "AWX Helper API",
+    current_version: "/api/v1/",
+    available_versions: {
+      v1: "/api/v1/"
     }
   });    
 }));
-app.use('/api/uploads', require('./controllers/uploads.js'));
+app.get('/api/v1/', (req, res) => {
+  res.status(200).json({
+    files: "/api/v1/files/",
+    uploads: "/api/v1/uploads/",
+    documents: "/api/v1/documents/" 
+  });  
+});
+app.use('/api/v1/files/', express.static(path.join(__dirname, 'uploads'), {maxAge: 31557600000}));
+app.use('/api/v1/uploads/', require('./controllers/uploads.js'));
+app.use('/api/v1/documents/', require('./controllers/documents.js'));
 /** Error Handler */
 if (process.env.NODE_ENV === 'development') {
   app.use(errorHandler());  

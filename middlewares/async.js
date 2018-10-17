@@ -4,6 +4,6 @@
  * Wraps our routes so that silent errors get caught by Express
  */
 const asyncMiddleware = fn => (req, res, next) => 
-  Promise.resolve(fn(req, res, next).catch())
+  Promise.resolve(fn(req, res, next).catch(next))
 
 exports = module.exports = asyncMiddleware;

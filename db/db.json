@@ -1,0 +1,104 @@
+{
+  "documents": [
+    {
+      "id": "cjndbo7700000l91b0q8f0zjo",
+      "created": "2018-10-17T15:39:36.684Z",
+      "type": "documents",
+      "url": "/helpers/api/documents/cjndbo7700000l91b0q8f0zjo/",
+      "data": {
+        "something": "awesome",
+        "hello": "world",
+        "port": 8080,
+        "enabled": true,
+        "list": [
+          1,
+          2,
+          3
+        ],
+        "object": {
+          "one": 1
+        }
+      }
+    },
+    {
+      "id": "cjndce0v90000yd1b9vhmibb9",
+      "created": "2018-10-17T15:59:41.541Z",
+      "type": "documents",
+      "url": "/helpers/api/documents/cjndce0v90000yd1b9vhmibb9/",
+      "data": {
+        "something": "awesome",
+        "hello": "world",
+        "port": 8080,
+        "enabled": true,
+        "list": [
+          1,
+          2,
+          3
+        ],
+        "object": {
+          "one": 1
+        }
+      }
+    },
+    {
+      "id": "cjndce2r20001yd1bdu3udqsg",
+      "created": "2018-10-17T15:59:43.982Z",
+      "type": "documents",
+      "url": "/helpers/api/documents/cjndce2r20001yd1bdu3udqsg/",
+      "data": {
+        "something": "awesome",
+        "hello": "world",
+        "port": 8080,
+        "enabled": true,
+        "list": [
+          1,
+          2,
+          3
+        ],
+        "object": {
+          "one": 1
+        }
+      }
+    },
+    {
+      "id": "cjndce4bk0002yd1bc17rw9rj",
+      "created": "2018-10-17T15:59:46.016Z",
+      "type": "documents",
+      "url": "/helpers/api/documents/cjndce4bk0002yd1bc17rw9rj/",
+      "data": {
+        "something": "awesome",
+        "hello": "world",
+        "port": 8080,
+        "enabled": true,
+        "list": [
+          1,
+          2,
+          3
+        ],
+        "object": {
+          "one": 1
+        }
+      }
+    },
+    {
+      "id": "cjndce5ry0003yd1bu8cz2isp",
+      "created": "2018-10-17T15:59:47.902Z",
+      "type": "documents",
+      "url": "/helpers/api/documents/cjndce5ry0003yd1bu8cz2isp/",
+      "data": {
+        "something": "awesome",
+        "hello": "world",
+        "port": 8080,
+        "enabled": true,
+        "list": [
+          1,
+          2,
+          3
+        ],
+        "object": {
+          "one": 1
+        }
+      }
+    }
+  ]
+}
