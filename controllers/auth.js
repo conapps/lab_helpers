@@ -44,6 +44,11 @@ router.post('/login/', (req, res) => {
 });
 
 router.post('/signup/', (req, res) => {
+  const secret = req.get('X-Lab-Helpers-Secret');
+
+  if (secret !== process.env.LAB_HELPERS_SECRET)
+    return utils.handleError(res, 'lab helpers secret mismatch');
+  
   const {email, password, username, name, role = 'admin'} = req.body;
 
   if (email === undefined) 

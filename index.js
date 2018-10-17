@@ -7,7 +7,6 @@
 const express = require('express');
 const cuid = require('cuid');
 const fs = require('fs');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const compression = require('compression');
@@ -16,9 +15,6 @@ const dotenv = require('dotenv');
 const path = require('path');
 const multer = require('multer');
 const passport = require('passport');
-
-/** Middlewares */
-const asyncMiddleware = require('./middlewares/async.js');
 
 /** Load environment variables from .env file. */
 dotenv.load({ path: '.env' });
@@ -37,16 +33,9 @@ app.set('port', process.env.PORT);
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: 1209600000 }, // two weeks in ms
-}));
 app.disable('x-powered-by');
 /** Unauthenticated Routes  */
-app.get('/api', asyncMiddleware(async (req, res, next) => {
+app.get('/api', (req, res, next) => {
   res.status(200).json({
     description: "AWX Helper API",
     current_version: "/api/v1/",
@@ -55,7 +44,7 @@ app.get('/api', asyncMiddleware(async (req, res, next) => {
     },
     auth: "/api/auth/"
   });    
-}));
+});
 app.get('/api/v1/', (req, res) => {
   res.status(200).json({
     files: "/api/v1/files/",
