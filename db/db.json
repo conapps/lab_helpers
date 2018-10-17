@@ -1,113 +1,24 @@
 {
+  "users": [],
   "documents": [
     {
-      "id": "cjndbo7700000l91b0q8f0zjo",
-      "created": "2018-10-17T15:39:36.684Z",
+      "id": "cjndljli00000fr1bc75ph3im",
+      "created": "2018-10-17T20:15:58.104Z",
       "type": "documents",
-      "url": "/helpers/api/documents/cjndbo7700000l91b0q8f0zjo/",
+      "url": "/helpers/api/v1/documents/cjndljli00000fr1bc75ph3im/",
       "data": {
-        "something": "awesome",
-        "hello": "world",
-        "port": 8080,
-        "enabled": true,
-        "list": [
-          1,
-          2,
-          3
-        ],
-        "object": {
-          "one": 1
-        }
+        "something": "cool"
       }
     },
     {
-      "id": "cjndce0v90000yd1b9vhmibb9",
-      "created": "2018-10-17T15:59:41.541Z",
+      "id": "cjndlpoqe0000ks1bn22utz4u",
+      "created": "2018-10-17T20:20:42.231Z",
       "type": "documents",
-      "url": "/helpers/api/documents/cjndce0v90000yd1b9vhmibb9/",
+      "url": "/helpers/api/v1/documents/cjndlpoqe0000ks1bn22utz4u/",
       "data": {
-        "something": "awesome",
-        "hello": "world",
-        "port": 8080,
-        "enabled": true,
-        "list": [
-          1,
-          2,
-          3
-        ],
-        "object": {
-          "one": 1
-        }
-      }
-    },
-    {
-      "id": "cjndce2r20001yd1bdu3udqsg",
-      "created": "2018-10-17T15:59:43.982Z",
-      "type": "documents",
-      "url": "/helpers/api/documents/cjndce2r20001yd1bdu3udqsg/",
-      "data": {
-        "something": "awesome",
-        "hello": "world",
-        "port": 8080,
-        "enabled": true,
-        "list": [
-          1,
-          2,
-          3
-        ],
-        "object": {
-          "one": 1
-        }
-      }
-    },
-    {
-      "id": "cjndce4bk0002yd1bc17rw9rj",
-      "created": "2018-10-17T15:59:46.016Z",
-      "type": "documents",
-      "url": "/helpers/api/documents/cjndce4bk0002yd1bc17rw9rj/",
-      "data": {
-        "something": "awesome",
-        "hello": "world",
-        "port": 8080,
-        "enabled": true,
-        "list": [
-          1,
-          2,
-          3
-        ],
-        "object": {
-          "one": 1
-        }
-      }
-    },
-    {
-      "id": "cjndce5ry0003yd1bu8cz2isp",
-      "created": "2018-10-17T15:59:47.902Z",
-      "type": "documents",
-      "url": "/helpers/api/documents/cjndce5ry0003yd1bu8cz2isp/",
-      "data": {
-        "something": "awesome",
-        "hello": "world",
-        "port": 8080,
-        "enabled": true,
-        "list": [
-          1,
-          2,
-          3
-        ],
-        "object": {
-          "one": 1
-        }
-      }
-    }
-  ],
-  "users": [
-    {
-      "email": "gmonne@conatel.com.uy",
-      "password": "$2a$10$OstShZcHRzHZCWXjQE5dMecbRRPcAsTxjGNCYTqME3voMKJUBWdnC",
-      "username": "gmonne",
-      "name": "Guzman Monne",
-      "role": "admin"
+        "something": "awesome"
+      },
+      "updated": "2018-10-17T20:21:15.686Z"
     }
   ]
 }

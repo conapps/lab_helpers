@@ -21,6 +21,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
     "logger": "0.0.1",
     "lowdb": "^1.0.0",
     "morgan": "^1.9.1",

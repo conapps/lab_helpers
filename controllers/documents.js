@@ -6,6 +6,7 @@
 const express = require('express');
 const cuid = require('cuid');
 const isNumber = require('lodash/isNumber');
+const omit = require('lodash/omit');
 
 const db = require('../modules/db.js');
 const utils = require('../modules/utils.js');
@@ -62,7 +63,9 @@ router.get('/', (req, res) => {
   utils.handleSuccess(res, result);
 });
 router.post('/', (req, res) => {
-  let doc = req.body.document;
+  let doc = req.body.document !== undefined
+    ? req.body.document
+    : req.body;
 
   if (doc === undefined) {
     return utils.handleError(res, '"document" is undefined')
@@ -80,7 +83,7 @@ router.post('/', (req, res) => {
   db.get(TYPE).push(item).write();
   return utils.handleSuccess(res, item);
 });
-router.get('/:id', (req, res) => {
+router.get('/:id/', (req, res) => {
   const id = req.params.id;
 
   if (id === undefined) {
@@ -95,6 +98,54 @@ router.get('/:id', (req, res) => {
 
   utils.handleSuccess(res, item);
 });
+router.put('/:id/', (req, res) => {
+  const id = req.params.id;
+
+  if (id === undefined) 
+    return utils.handleError(res, '"id" is undefined');
+
+  const data  = omit(req.body, 'id');
+  
+  if (data === undefined)
+    return utils.handleError(res, '"data" is undefined');
+  
+  let item = db.get(TYPE).find({id}).value();
+  item = db
+    .get(TYPE)
+    .find({id})
+    .assign(Object.assign(
+      {},
+      item,
+      {
+        data: Object.assign({}, item.data, data),
+        updated: new Date().toISOString()
+      })
+    )
+    .write();
+
+  utils.handleSuccess(res, item);
+});
+router.delete('/:id/', (req, res) => {
+  const id = req.params.id;
+
+  if (id === undefined)
+    return utils.handleError(res, '"id" is undefined');
+
+  db.get(TYPE).remove({id}).write();
+
+  utils.handleSuccess(res, {}, {status: 204});
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 

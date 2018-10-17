@@ -6,7 +6,7 @@
 const cuid = require('cuid');
 
 const PREFIX = '/helpers';
-const RESOURCE = '/api' 
+const RESOURCE = '/api/v1' 
 
 exports = module.exports = {
   makeURL: function (prefix, path, {resource} = {}) {
