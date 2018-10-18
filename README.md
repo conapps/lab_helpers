@@ -24,14 +24,14 @@ En este caso la salida almacenada en `output` sería algo como:
 
 ```json
 {
-    "created": "2018-10-17T20:40:37.275Z",
-    "data": {
-        "hostname": "1.2.3.4",
-        "something": "awesome"
-    },
-    "id": "cjndmfau300006j1bvhylyjfx",
-    "type": "documents",
-    "url": "/helpers/api/v1/documents/cjndmfau300006j1bvhylyjfx/"
+  "created": "2018-10-17T20:40:37.275Z",
+  "data": {
+    "hostname": "1.2.3.4",
+    "something": "awesome"
+  },
+  "id": "cjndmfau300006j1bvhylyjfx",
+  "type": "documents",
+  "url": "/helpers/api/v1/documents/cjndmfau300006j1bvhylyjfx/"
 }
 ```
 
@@ -67,19 +67,54 @@ En este caso la salida sería algo así:
 
 ```json
 {
-    "created": "2018-10-17T20:56:22.945Z",
-    "filename": "awx.pem",
-    "id": "cjndmzkip0002p51b73s08lr2",
-    "type": "files",
-    "url": "/helpers/api/v1/files/awx.pem"
+  "created": "2018-10-17T20:56:22.945Z",
+  "filename": "awx.pem",
+  "id": "cjndmzkip0002p51b73s08lr2",
+  "type": "files",
+  "url": "/helpers/api/v1/files/awx.pem"
 }
 ```
+
+## Getting Started
+
+Para poder correr la aplicación es necesario cargar una serie de variables de entorno. Las podemos configurar en el servidor, o localmente a través del archivo `.env`. Por ejemplo, algo así:
+
+```ini
+HOST=0.0.0.0
+PORT=8081
+JWT_SECRET=somethin_something_the_dark_side
+SESSION_SECRET=conatel
+LAB_HELPERS_SECRET=C0n4t3lC0n4t3l
+```
+
+Luego instalamos las dependencias y corremos el archivo principal:
+
+```bash
+# NPM
+npm install
+# Yarn
+yarn install
+
+# Development Mode
+## NPM
+npm run serve
+## Yarn
+yarn serve
+
+# Production
+## NodeJS
+node index.js
+## PM2
+pm2 start index.js --name lab_helpers
+```
+
+_OBS: `pm2` puede instalarse globalmente por npm: `npm install -g pm2`._
 
 ## API
 
 TODO
 
-## Licencia 
+## Licencia
 
 [MIT](./LICENCE)
 
