@@ -1,0 +1,30 @@
+definitions:
+  AnyObject:
+    description: Cualquier objeto.
+    type: object
+  ID:
+    description: ID del recurso. Compatible con CUID.
+    type: string
+    pattern: '^c[^\s-]{8,}$'
+  URL:
+    description: URL para obtener este recurso.
+    type: string
+    pattern: '^(/[^/ ]*)+/?$'
+  ISODate:
+    description: Feca en formato ISO UTC
+    type: string
+    pattern: '\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+'
+  Document:
+    properties:
+      created:
+        $ref: '#/definitions/ISODate'
+      data:
+        $ref: '#/definitions/AnyObject'
+      id:
+        $ref: '#/definitions/ID'
+      type:
+        type: string
+        enum:
+          - document
+      url:
+        $ref: '#/definitions/URL'

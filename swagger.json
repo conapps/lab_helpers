@@ -1,0 +1,94 @@
+{
+  "info": {
+    "title": "Lab Helpers",
+    "version": "1.0.0",
+    "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "host": "ansibletower.conatest.click",
+  "basePath": "/helpers/",
+  "swagger": "2.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "summary": "Devuelve información básica de la API",
+        "description": "Se puede utilizar este endpoints para comenzar a recorrer la API. Las\nURL para todas las versiones de la misma, y la URL para la autenticación\ncon la misma pueden encontrarse en esta respuesta.\n",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/documents/{id}": {
+      "get": {
+        "summary": "Devuelve un documento según su 'id'.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "minimum": 1,
+            "description": "ID del documento."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "El documento buscado.",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AnyObject": {
+      "description": "Cualquier objeto.",
+      "type": "object"
+    },
+    "ID": {
+      "description": "ID del recurso. Compatible con CUID.",
+      "type": "string",
+      "pattern": "^c[^\\s-]{8,}$"
+    },
+    "URL": {
+      "description": "URL para obtener este recurso.",
+      "type": "string",
+      "pattern": "^(/[^/ ]*)+/?$"
+    },
+    "Document": {
+      "properties": {
+        "created": {
+          "type": "date"
+        },
+        "data": {
+          "$ref": "#/definitions/AnyObject"
+        },
+        "id": {
+          "$ref": "#/definitions/ID"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "document"
+          ]
+        },
+        "url": {
+          "$ref": "#/definitions/URL"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}
