@@ -9,40 +9,199 @@ definitions:
     type: string
     pattern: '^c[^\s-]{8,}$'
     example: 'cjld2cjxh0000qzrmn831i7rn'
+  Count:
+    description: Cantidad de elementos devueltos.
+    type: number
+    example: 1
   URL:
     description: URL correspondiente al recurso.
     type: string
     pattern: '^(/[^/ ]*)+/?$'
     example: '/helpers/api/v1/documents/cjld2cjxh0000qzrmn831i7rn'
-  ISODate:
-    description: Feca en formato ISO UTC
+  Email:
+    description: Dirección de Email
+    type: string
+    format: email
+    example: example@someplace.com
+  Password:
+    description: Contraseña
+    type: string
+    format: password
+    example: secret
+  CreatedDate:
+    description: Fecha de creación del recuro
     type: string
     pattern: '\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+'
     example: "2018-10-19T14:06:44.271Z"
+  UpdatedDate:
+    description: Fecha de actualización del recuro
+    type: string
+    pattern: '\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+'
+    example: "2018-10-20T15:26:44.271Z"
   Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Mensaje de error.
-          example: no existe un recurso identificado por la id 
-            'cjld2cjxh0000qzrmn831i7rn'
-  Document:
+    description: Objeto con mensaje de error.
     type: object
     properties:
-      created:
-        $ref: '#/definitions/ISODate'
-        description: Fecha de creado.
-      data:
-        $ref: '#/definitions/AnyObject'
-        description: Documento a ser almacenado.
+      error:
+        type: string
+        description: Mensaje de error.
+        example: no existe un recurso identificado por la id 
+          'cjld2cjxh0000qzrmn831i7rn'
+  Credentials:
+    description: Objeto con credenciales de acceso.
+    type: object
+    properties:
+      email:
+        $ref: '#/definitions/Email'
+      password:
+        $ref: '#/definitions/Password'
+    required:
+      - email
+      - password
+  Tokens:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      idToken:
+        description: >
+          Token JWT que contiene información del usuario. Puede utilizarse
+          para interactuar con la API.
+        type: string
+        format: base64
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAc29tZXBsYWNlLmNvbSIsInVzZXJuYW1lIjoidXNlciIsIm5hbWUiOiJKb2huIERvZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzOTk2NDc3NX0.dlmEXpv8PCdJuw2XpENLPrhIFqTyUfwvh5ijNAdlKpI
+      accessToken:
+        description: >
+          Token JWT. Puede utilizarse para interactuar con la API.
+        type: string
+        format: base64
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Mzk5NjQ3NzV9.FP2_tkky1VartaGJO9DmO0YXl_K7FeQWSCZKIRK9k04
+  UserBody:
+    description: Usuario.
+    type: object
+    properties:
+      email:
+        $ref: '#/definitions/Email'
+      password:
+        $ref: '#/definitions/Password'
+      username:
+        description: Nombre de cuenta del usuario.
+        type: string
+        example: user
+      name:
+        description: Nombre de usuario.
+        type: string
+        example: John Doe
+      role:
+        description: Rol para definir el nivel de acceso del usuario.
+        type: string
+        enum:
+          - admin
+          - user
+    required:
+      - email
+      - password
+  User:
+    description: Usuario.
+    type: object
+    properties:
+      email:
+        $ref: '#/definitions/Email'
+      username:
+        description: Nombre de cuenta del usuario.
+        type: string
+        example: user
+      name:
+        description: Nombre de usuario.
+        type: string
+        example: John Doe
+      role:
+        description: Rol para definir el nivel de acceso del usuario.
+        type: string
+        enum:
+          - admin
+          - user
+  Next:
+    description: URL para obtener la siguiente lista de recursos, paginados utilizando las opciones `offset` y `limit`.
+    type: string
+    pattern: '^(/[^/ ]*)+/?$'
+    example: '/helpers/api/v1/documents/?offset=20&limit=10'
+  Previous:
+    description: URL para obtener la anterior lista de recursos, paginados utilizando las opciones `offset` y `limit`.
+    type: 'string'
+    pattern: '^(/[^/ ]*)+/?$'
+    example: '/helpers/api/v1/documents/?offset=0&limit=10'
+  Documents:
+    type: object
+    description: Lista de documentos.
+    properties:
+      count:
+        $ref: '#/definitions/Count'
+      next:
+        $ref: '#/definitions/Next'
+      previous:
+        $ref: '#/definitions/Previous'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Document'
+  TextDocument:
+    type: object
+    description: Parámetros para almacenar un archivo de texto en el servidor.
+    properties:
+      filename:
+        $ref: '#/definitions/FileName'
+      text:
+        type: string
+        description: Texto a almacenar en un archivo en el servidor.
+        ejemplo: 'Hello, World!'
+  JSONDocument:
+    type: object
+    description: Parámetros para almacenar un archivo JSON en el servidor.
+    properties:
+      json:
+        $ref: '#definitions/AnyObject'
+  FileName:    
+    type: string
+    description: Nombre del archivo a almacenar, incluyendo su extensión.
+    example: 'archivo.txt'
+  File:
+    type: object
+    description: Metadatos de archivo almacenado en el servidor.
+    properties:
       id:
         $ref: '#/definitions/ID'
       type:
         type: string
         enum:
-          - document
+          - files
+        description: Tipo del recurso.
+        example: files
+      url:
+        $ref: '#/definitions/URL'
+      created:
+        $ref: '#/definitions/CreatedDate'
+      updated:
+        $ref: '#/definitions/UpdatedDate'
+      filename:
+        $ref: '#/definitions/FileName'
+  Document:
+    type: object
+    description: Documento JSON almacenado en la base.
+    properties:
+      created:
+        $ref: '#/definitions/CreatedDate'
+      data:
+        $ref: '#/definitions/AnyObject'
+      id:
+        $ref: '#/definitions/ID'
+      type:
+        type: string
+        enum:
+          - documents
         description: Tipo del recurso.
         example: document
       url:
         $ref: '#/definitions/URL'
+      updated:
+        $ref: '#/definitions/UpdatedDate'

@@ -5,6 +5,20 @@ responses:
     schema:
       type: string
       example: Unauthorized
+  NotFound:
+    description: >
+      El recurso requerido, un documento por ejemplo, no fue encontrado.
+    schema:
+      type: string
+      example: Not Found
+  ServerError:
+    description: >
+      Algo sucedio en el servidor y no puede responder
+    schema:
+      type: string
+      example: Server Error
+  NoContent:
+    description:
   Error:
     description: >
       El request es invalido o no puede procesarse. Un mensaje de error con más

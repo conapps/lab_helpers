@@ -25,6 +25,47 @@ const SORT_BY = 'id';
 const OFFSET = 0;
 
 /** Routes **/
+/**
+ * @swagger
+ * /api/v1/documents/:
+ *  get:
+ *    summary: Devuelve una lista de documentos paginada.
+ *    parameters:
+ *      - in: query
+ *        name: limit
+ *        type: number
+ *        minimum: 1
+ *        maximum: 100
+ *        description: Limite de documentos a devolver.
+ *      - in: query
+ *        name: offset
+ *        type: number
+ *        minimum: 0
+ *        description: Valor de offset según el cual se paginan los resultados.
+ *      - in: query
+ *        name: sortBy
+ *        type: string
+ *        default: id
+ *        description: >
+ *          Valor de la variable por la cual se ordenan los resultados.
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - documents
+ *    responses:
+ *      200:
+ *        description: La lista de documentos paginada.
+ *        schema:
+ *          $ref: '#/definitions/Documents'
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
 router.get('/', (req, res) => {
   let { limit = LIMIT, sortBy = SORT_BY, offset = OFFSET } = req.query || {};
 
@@ -64,7 +105,7 @@ router.get('/', (req, res) => {
 });
 /**
  * @swagger
- * /api/v1/documents/{id}:
+ * /api/v1/documents/:
  *  post:
  *    summary: Almacena un documento.
  *    description: >
@@ -73,19 +114,28 @@ router.get('/', (req, res) => {
  *      recuperarse.
  *    parameters:
  *      - in: body
+ *        required: true
  *        name: document
  *        description: Objeto JSON.
  *        schema:
  *          $ref: '#/definitions/AnyObject'
  *    security:
  *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - documents
  *    responses:
  *      200:
  *        description: OK
  *        schema:
  *          $ref: '#/definitions/Document'
+ *      400:
+ *        $ref: '#/responses/Error'
  *      401:
  *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
  */
 router.post('/', (req, res) => {
   let doc = req.body.document !== undefined ? req.body.document : req.body;
@@ -119,9 +169,12 @@ router.post('/', (req, res) => {
  *        required: true
  *        type: string
  *        minimum: 1
+ *        maximum: 1
  *        description: ID del documento.
  *    security:
  *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - documents
  *    responses:
  *      200:
  *        description: El documento buscado.
@@ -131,12 +184,16 @@ router.post('/', (req, res) => {
  *        $ref: '#/responses/Error'
  *      401:
  *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
  */
 router.get('/:id/', (req, res) => {
   const id = req.params.id;
 
   if (id === undefined) {
-    return utils.handleError(res, '"id" is undefined');
+    return utils.notFound(res);
   }
 
   const item = db
@@ -145,11 +202,46 @@ router.get('/:id/', (req, res) => {
     .value();
 
   if (item === undefined) {
-    return utils.handleError(res, `item with 'id: ${id}' not found`);
+    return utils.notFound(res);
   }
 
   utils.handleSuccess(res, item);
 });
+/**
+ * @swagger
+ * /api/v1/documents/{id}:
+ *  put:
+ *    summary: Actualiza un documento identificado por su 'id'.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        type: string
+ *        minimum: 1
+ *        maximum: 1
+ *        description: ID del documento.
+ *      - in: body
+ *        required: true
+ *        name: document
+ *        description: Objeto JSON.
+ *        schema:
+ *          $ref: '#/definitions/AnyObject'
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - documents
+ *    responses:
+ *      204:
+ *        $ref: '#/responses/NoContent'
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
 router.put('/:id/', (req, res) => {
   const id = req.params.id;
 
@@ -176,6 +268,35 @@ router.put('/:id/', (req, res) => {
 
   utils.handleSuccess(res, item);
 });
+/**
+ * @swagger
+ * /api/v1/documents/{id}:
+ *  delete:
+ *    summary: Elimina un documento según su 'id'.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        type: string
+ *        minimum: 1
+ *        maximum: 1
+ *        description: ID del documento.
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - documents
+ *    responses:
+ *      204:
+ *        $ref: '#/responses/NoContent'
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
 router.delete('/:id/', (req, res) => {
   const id = req.params.id;
 
@@ -185,5 +306,5 @@ router.delete('/:id/', (req, res) => {
     .remove({ id })
     .write();
 
-  utils.handleSuccess(res, {}, { status: 204 });
+  utils.noContent(res);
 });

@@ -28,6 +28,13 @@ exports = module.exports = {
     }
     res.status(400).json({ error: message });
   },
+  notFound: function(res) {
+    console.error(err);
+    res.status(404).send('Not Found');
+  },
+  noContent: function(res) {
+    res.status(204).send();
+  },
   makeList: function(type, items, { next, prev } = {}) {
     if (Array.isArray(items) === false) {
       throw new Error('"items" must be a list');

@@ -55,18 +55,21 @@ app.use(
  *  get:
  *    summary: Devuelve información básica de la API
  *    description: >
- *      Se puede utilizar este endpoints para comenzar a recorrer la API. Las
+ *      Se puede utilizar este endpoint para comenzar a recorrer la API. Las
  *      URL para todas las versiones de la misma, y la URL para la autenticación
  *      con la misma pueden encontrarse en esta respuesta.
- *    example:
- *      "description": "AWX Helper API"
- *      "current_version": "/api/v1/"
- *      "available_versions":
- *        "v1": "/api/v1/"
- *      "auth": "/api/auth/"
  *    responses:
  *      200:
+ *        examples:
+ *          'application/json':
+ *            "description": "AWX Helper API"
+ *            "current_version": "/api/v1/"
+ *            "available_versions":
+ *              "v1": "/api/v1/"
+ *            "auth": "/api/auth/"
  *        description: OK
+ *      500:
+ *        $ref: '#/responses/ServerError'
  */
 app.get('/api', (req, res, next) => {
   res.status(200).json({
@@ -78,6 +81,28 @@ app.get('/api', (req, res, next) => {
     auth: '/api/auth/'
   });
 });
+/**
+ * @swagger
+ * /api/v1/:
+ *  get:
+ *    summary: Devuelve información básica de la API
+ *    description: >
+ *      Se puede utilizar este endpoint para recorrer la versión 1 de la API.
+ *      En la respuesta se detallan todos los recursos disponibles bajo este
+ *      namespace.
+ *    tags:
+ *      - default
+ *    responses:
+ *      200:
+ *        description: OK
+ *        examples:
+ *          'application/json':
+ *            files: '/api/v1/files/',
+ *            uploads: '/api/v1/uploads/',
+ *            documents: '/api/v1/documents/'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
 app.get('/api/v1/', (req, res) => {
   res.status(200).json({
     files: '/api/v1/files/',
@@ -85,18 +110,52 @@ app.get('/api/v1/', (req, res) => {
     documents: '/api/v1/documents/'
   });
 });
+/** Authentication Routes */
 app.use('/api/auth/', require('./controllers/auth.js'));
 /** Authenticated routes */
+/**
+ * @swagger
+ * /api/v1/files/{filename}:
+ *  get:
+ *    summary: Devuelve el archivo almacenado en el servidor según su `filename`
+ *    parameters:
+ *      - in: path
+ *        name: filename
+ *        required: true
+ *        type: string
+ *        minimum: 1
+ *        maximum: 1
+ *        description: Nombre del archivo almacenado.
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - files
+ *    responses:
+ *      200:
+ *        description: El archivo buscado.
+ *        schema:
+ *          type: file
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
 app.use(
   '/api/v1/files/',
   passport.authenticate('jwt', { session: false }),
   express.static(path.join(__dirname, 'uploads'), { maxAge: 31557600000 })
 );
+/** Upload Routes */
 app.use(
   '/api/v1/uploads/',
   passport.authenticate('jwt', { session: false }),
   require('./controllers/uploads.js')
 );
+/** Documents Route */
 app.use(
   '/api/v1/documents/',
   passport.authenticate('jwt', { session: false }),
