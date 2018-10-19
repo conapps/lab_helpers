@@ -5,45 +5,65 @@
  * Helper app that exposes resources to help out during lab POD creations.
  */
 const express = require('express');
-const cuid = require('cuid');
-const fs = require('fs');
+const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const compression = require('compression');
 const errorHandler = require('errorhandler');
 const dotenv = require('dotenv');
 const path = require('path');
-const multer = require('multer');
 const passport = require('passport');
 
 /** Load environment variables from .env file. */
-dotenv.load({ path: '.env' });
+dotenv.load({ path: process.env.APP_ENV_PATH || '.env' });
+
+/** Load custom modules */
+const swaggerDocument = require('./swagger.json');
+const config = require('./config.js');
 
 /** Configure passport */
 require('./modules/passport.js');
 
-/** Instantiate the upload middleware */
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
-
 /** Create the express server */
 const app = express();
 
+/** Configure Swagger UI options */
+const swaggerUiOptions = {
+  swaggerOptions: {
+    host: config.host,
+    basePath: config.basePath
+  }
+};
+
 app.set('host', process.env.HOST);
 app.set('port', process.env.PORT);
+app.use(cors('*'));
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.disable('x-powered-by');
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, swaggerUiOptions)
+);
 /** Unauthenticated Routes  */
 /**
  * @swagger
  * /api:
  *  get:
  *    summary: Devuelve información básica de la API
- *    description: |
+ *    description: >
  *      Se puede utilizar este endpoints para comenzar a recorrer la API. Las
  *      URL para todas las versiones de la misma, y la URL para la autenticación
  *      con la misma pueden encontrarse en esta respuesta.
+ *    example:
+ *      "description": "AWX Helper API"
+ *      "current_version": "/api/v1/"
+ *      "available_versions":
+ *        "v1": "/api/v1/"
+ *      "auth": "/api/auth/"
  *    responses:
  *      200:
  *        description: OK

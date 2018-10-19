@@ -1,0 +1,13 @@
+responses:
+  Unauthorized:
+    description: >
+      No cuenta con credenciales suficientes para acceder a este recurso.
+    schema:
+      type: string
+      example: Unauthorized
+  Error:
+    description: >
+      El request es invalido o no puede procesarse. Un mensaje de error con más
+      información seré provisto en el cuerpo del mensaje.
+    schema:
+      $ref: '#/definitions/Error'

@@ -62,6 +62,31 @@ router.get('/', (req, res) => {
   const result = utils.makeList(TYPE, items, { next, prev });
   utils.handleSuccess(res, result);
 });
+/**
+ * @swagger
+ * /api/v1/documents/{id}:
+ *  post:
+ *    summary: Almacena un documento.
+ *    description: >
+ *      El documento a almacenar puede ser cualquier objeto JSON. La aplicación
+ *      almacenara el documento en la base, y devolverá el ID donde puede
+ *      recuperarse.
+ *    parameters:
+ *      - in: body
+ *        name: document
+ *        description: Objeto JSON.
+ *        schema:
+ *          $ref: '#/definitions/AnyObject'
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    responses:
+ *      200:
+ *        description: OK
+ *        schema:
+ *          $ref: '#/definitions/Document'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ */
 router.post('/', (req, res) => {
   let doc = req.body.document !== undefined ? req.body.document : req.body;
 
@@ -85,7 +110,7 @@ router.post('/', (req, res) => {
 });
 /**
  * @swagger
- * /documents/{id}:
+ * /api/v1/documents/{id}:
  *  get:
  *    summary: Devuelve un documento según su 'id'.
  *    parameters:
@@ -95,11 +120,17 @@ router.post('/', (req, res) => {
  *        type: string
  *        minimum: 1
  *        description: ID del documento.
+ *    security:
+ *      - JWTTokenAuthentication: []
  *    responses:
  *      200:
  *        description: El documento buscado.
  *        schema:
  *          $ref: '#/definitions/Document'
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
  */
 router.get('/:id/', (req, res) => {
   const id = req.params.id;

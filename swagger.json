@@ -12,12 +12,35 @@
   ],
   "host": "ansibletower.conatest.click",
   "basePath": "/helpers/",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "SecretAuthentication": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-Lab-Helpers-Secret"
+    },
+    "JWTTokenAuthentication": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
   "swagger": "2.0",
   "paths": {
     "/api": {
       "get": {
         "summary": "Devuelve información básica de la API",
-        "description": "Se puede utilizar este endpoints para comenzar a recorrer la API. Las\nURL para todas las versiones de la misma, y la URL para la autenticación\ncon la misma pueden encontrarse en esta respuesta.\n",
+        "description": "Se puede utilizar este endpoints para comenzar a recorrer la API. Las URL para todas las versiones de la misma, y la URL para la autenticación con la misma pueden encontrarse en esta respuesta.\n",
+        "example": {
+          "description": "AWX Helper API",
+          "current_version": "/api/v1/",
+          "available_versions": {
+            "v1": "/api/v1/"
+          },
+          "auth": "/api/auth/"
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -25,7 +48,37 @@
         }
       }
     },
-    "/documents/{id}": {
+    "/api/v1/documents/{id}": {
+      "post": {
+        "summary": "Almacena un documento.",
+        "description": "El documento a almacenar puede ser cualquier objeto JSON. La aplicación almacenara el documento en la base, y devolverá el ID donde puede recuperarse.\n",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "document",
+            "description": "Objeto JSON.",
+            "schema": {
+              "$ref": "#/definitions/AnyObject"
+            }
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      },
       "get": {
         "summary": "Devuelve un documento según su 'id'.",
         "parameters": [
@@ -38,12 +91,23 @@
             "description": "ID del documento."
           }
         ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "El documento buscado.",
             "schema": {
               "$ref": "#/definitions/Document"
             }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -52,25 +116,49 @@
   "definitions": {
     "AnyObject": {
       "description": "Cualquier objeto.",
-      "type": "object"
+      "type": "object",
+      "example": {
+        "something": "awesome"
+      }
     },
     "ID": {
       "description": "ID del recurso. Compatible con CUID.",
       "type": "string",
-      "pattern": "^c[^\\s-]{8,}$"
+      "pattern": "^c[^\\s-]{8,}$",
+      "example": "cjld2cjxh0000qzrmn831i7rn"
     },
     "URL": {
-      "description": "URL para obtener este recurso.",
+      "description": "URL correspondiente al recurso.",
       "type": "string",
-      "pattern": "^(/[^/ ]*)+/?$"
+      "pattern": "^(/[^/ ]*)+/?$",
+      "example": "/helpers/api/v1/documents/cjld2cjxh0000qzrmn831i7rn"
+    },
+    "ISODate": {
+      "description": "Feca en formato ISO UTC",
+      "type": "string",
+      "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+",
+      "example": "2018-10-19T14:06:44.271Z"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Mensaje de error.",
+          "example": "no existe un recurso identificado por la id 'cjld2cjxh0000qzrmn831i7rn'"
+        }
+      }
     },
     "Document": {
+      "type": "object",
       "properties": {
         "created": {
-          "type": "date"
+          "$ref": "#/definitions/ISODate",
+          "description": "Fecha de creado."
         },
         "data": {
-          "$ref": "#/definitions/AnyObject"
+          "$ref": "#/definitions/AnyObject",
+          "description": "Documento a ser almacenado."
         },
         "id": {
           "$ref": "#/definitions/ID"
@@ -79,7 +167,9 @@
           "type": "string",
           "enum": [
             "document"
-          ]
+          ],
+          "description": "Tipo del recurso.",
+          "example": "document"
         },
         "url": {
           "$ref": "#/definitions/URL"
@@ -87,8 +177,21 @@
       }
     }
   },
-  "responses": {},
+  "responses": {
+    "Unauthorized": {
+      "description": "No cuenta con credenciales suficientes para acceder a este recurso.\n",
+      "schema": {
+        "type": "string",
+        "example": "Unauthorized"
+      }
+    },
+    "Error": {
+      "description": "El request es invalido o no puede procesarse. Un mensaje de error con más información seré provisto en el cuerpo del mensaje.\n",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
   "parameters": {},
-  "securityDefinitions": {},
   "tags": []
 }

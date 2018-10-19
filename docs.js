@@ -18,10 +18,29 @@ const options = {
     consumes: ['application/json'],
     produces: ['application/json'],
     host: 'ansibletower.conatest.click',
-    basePath: '/helpers/'
+    basePath: '/helpers/',
+    schemes: ['https'],
+    securityDefinitions: {
+      SecretAuthentication: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'X-Lab-Helpers-Secret'
+      },
+      JWTTokenAuthentication: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization'
+      }
+    }
   },
   // Path to the API docs
-  apis: ['./docs/definitions.yml', './index.js', './controllers/*.js']
+  apis: [
+    './docs/components.yml',
+    './docs/responses.yml',
+    './docs/definitions.yml',
+    './index.js',
+    './controllers/*.js'
+  ]
 };
 /** SwaggerJSDoc execution */
 console.log('Generating the configuration');
