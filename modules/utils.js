@@ -1,12 +1,14 @@
 /**
  * modules/utils.js
- * 
+ *
  * Helper functions for the rest of the app
  */
 const cuid = require('cuid');
 
-const PREFIX = '/helpers';
-const RESOURCE = '/api/v1' 
+const config = require('../config.js');
+
+const BASE_PATH = config.basePath;
+const RESOURCE = '/api/v1';
 
 exports = module.exports = {
   makeURL: function (prefix, path, {resource, noEndSlash = false} = {}) {
@@ -15,37 +17,32 @@ exports = module.exports = {
       : resource;
     return `${PREFIX}${resource}/${prefix}/${path}${noEndSlash === true ? '' : '/'}`
   },
-  handleSuccess: function (res, result, {status = 200} = {}) {
-    return res.status(status).json(result);  
+  handleSuccess: function(res, result, { status = 200 } = {}) {
+    return res.status(status).json(result);
   },
-  handleError: function (res, error) {
+  handleError: function(res, error) {
     if (error instanceof Error === true) {
-      if (process.env.NODE_ENV === 'development')
-        console.error(error);
+      if (process.env.NODE_ENV === 'development') console.error(error);
       message = error.message;
     } else {
       console.log(error);
-      message = error
+      message = error;
     }
-    res.status(400).json({error: message})
+    res.status(400).json({ error: message });
   },
-  makeList: function (type, items, {next, prev} = {}) {
+  makeList: function(type, items, { next, prev } = {}) {
     if (Array.isArray(items) === false) {
-      throw new Error('"items" must be a list');  
+      throw new Error('"items" must be a list');
     }
 
     return {
       count: items.length,
-      next: next !== null
-        ? this.makeURL(type, next)
-        : null,
-      previous: prev !== null
-        ? this.makeURL(type, prev)
-        : null,
+      next: next !== null ? this.makeURL(type, next) : null,
+      previous: prev !== null ? this.makeURL(type, prev) : null,
       items
-    }  
+    };
   },
-  makeItem: function (type, data) {
+  makeItem: function(type, data) {
     const id = cuid();
     return {
       id,
@@ -53,6 +50,6 @@ exports = module.exports = {
       type,
       url: this.makeURL(type, id),
       data
-    }
-  },
+    };
+  }
 };
