@@ -30,16 +30,15 @@ router.post('/text', asyncMiddleware(async (req, res, next) => {
     return;
   }
   const filePath = makePath(filename);
-  console.log(filePath);
   fs.writeFile(filePath, body, () => {
     const result = {
       id: cuid(),
       type,
-      url: makeURL('files', filename, {resource: ''}),
+      url: makeURL('files', filename, {noEndSlash: true}),
       created: new Date().toISOString(),
       filename
     };
-    db.get(types).push(result);
+    db.get(type).push(result);
     res.status(200).json(result);
   });
 }));

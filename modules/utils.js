@@ -9,11 +9,11 @@ const PREFIX = '/helpers';
 const RESOURCE = '/api/v1' 
 
 exports = module.exports = {
-  makeURL: function (prefix, path, {resource} = {}) {
+  makeURL: function (prefix, path, {resource, noEndSlash = false} = {}) {
     resource = resource === undefined
       ? RESOURCE
       : resource;
-    return `${PREFIX}${resource}/${prefix}/${path}/`
+    return `${PREFIX}${resource}/${prefix}/${path}${noEndSlash === true ? '' : '/'}`
   },
   handleSuccess: function (res, result, {status = 200} = {}) {
     return res.status(status).json(result);  

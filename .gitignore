@@ -1,6 +1,7 @@
 # Custom
 db
 .env
+uploads
 
 # Logs
 logs
