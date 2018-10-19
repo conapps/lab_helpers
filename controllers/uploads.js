@@ -86,7 +86,7 @@ router.post(
 );
 /**
  * @swagger
- * /api/v1/upload/text/:
+ * /api/v1/upload/json/:
  *  post:
  *    summary: Almacena un archivo JSON en el servidor.
  *    description: >

@@ -13,11 +13,16 @@ definitions:
     description: Cantidad de elementos devueltos.
     type: number
     example: 1
-  URL:
+  DocumentURL:
     description: URL correspondiente al recurso.
     type: string
     pattern: '^(/[^/ ]*)+/?$'
     example: '/helpers/api/v1/documents/cjld2cjxh0000qzrmn831i7rn'
+  FilesURL:
+    description: URL correspondiente al recurso.
+    type: string
+    pattern: '^(/[^/ ]*)+/?$'
+    example: '/helpers/api/v1/files/archivo.txt'
   Email:
     description: Dirección de Email
     type: string
@@ -154,13 +159,13 @@ definitions:
       text:
         type: string
         description: Texto a almacenar en un archivo en el servidor.
-        ejemplo: 'Hello, World!'
+        example: 'Hello, World!'
   JSONDocument:
     type: object
     description: Parámetros para almacenar un archivo JSON en el servidor.
     properties:
       json:
-        $ref: '#definitions/AnyObject'
+        $ref: '#/definitions/AnyObject'
   FileName:    
     type: string
     description: Nombre del archivo a almacenar, incluyendo su extensión.
@@ -178,7 +183,7 @@ definitions:
         description: Tipo del recurso.
         example: files
       url:
-        $ref: '#/definitions/URL'
+        $ref: '#/definitions/FilesURL'
       created:
         $ref: '#/definitions/CreatedDate'
       updated:
@@ -202,6 +207,6 @@ definitions:
         description: Tipo del recurso.
         example: document
       url:
-        $ref: '#/definitions/URL'
+        $ref: '#/definitions/DocumentURL'
       updated:
         $ref: '#/definitions/UpdatedDate'

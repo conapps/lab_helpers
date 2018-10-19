@@ -97,8 +97,8 @@ app.get('/api', (req, res, next) => {
  *        description: OK
  *        examples:
  *          'application/json':
- *            files: '/api/v1/files/',
- *            uploads: '/api/v1/uploads/',
+ *            files: '/api/v1/files/'
+ *            uploads: '/api/v1/uploads/'
  *            documents: '/api/v1/documents/'
  *      500:
  *        $ref: '#/responses/ServerError'
