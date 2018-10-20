@@ -115,8 +115,9 @@ router.post('/text', (req, res) => {
  */
 router.post('/json', (req, res) => {
   let json = req.body.json;
-  console.log(json, typeof json);
+
   const id = cuid();
+
   try {
     if (typeof json === 'string') {
       json = JSON.parse(json);
@@ -124,18 +125,21 @@ router.post('/json', (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(400).json({
-      error: 'The variable "json" can\'t be parsed'
+      error: 'the "json" document can\'t be parsed'
     });
     return;
   }
+
   if (typeof json !== 'object') {
     res.status(400).json({
-      error: 'The variable "json" is not a valid JSON object'
+      error: 'the "json" document is not a valid JSON object'
     });
     return;
   }
+
   const filename = `${id}.json`;
   const filePath = makePath(filename);
+
   fs.writeFile(filePath, JSON.stringify(json), () => {
     const result = {
       id,
@@ -144,7 +148,7 @@ router.post('/json', (req, res) => {
       created: new Date().toISOString(),
       filename
     };
-    db.get(type).push(Object.assign({}, result, { data }));
+
     res.status(200).json(result);
   });
 });
