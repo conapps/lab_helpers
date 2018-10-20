@@ -136,7 +136,7 @@ router.post('/json', (req, res) => {
   }
   const filename = `${id}.json`;
   const filePath = makePath(filename);
-  fs.appendFile(filePath, JSON.stringify(json), () => {
+  fs.writeFile(filePath, JSON.stringify(json), () => {
     const result = {
       id,
       type: 'document',
