@@ -5,19 +5,47 @@ Esta aplicación permite almacenar archivos de texto y documentos JSON con facil
 La idea es agregar, en cualquier parte de nuestros `playbooks` tareas similares a la siguiente:
 
 ```yaml
-- name: Guardamos una serie de variables en un repositorio remoto.
-  uri:
-    url: '{{lab_helpers_url}}/helpers/api/v1/documents/'
-    method: POST
-    body:
-      hostname: '{{inventory_hostname}}'
-      something: awesome
-    body_format: json
-    headers:
-      'Content-Type': 'application/json'
-      'Authorization': 'Bearer {{lab_helpers_access_token}}'
-    return_content: yes
-  register: output
+# ---
+# lab_helpers_store_document_example.yml
+#
+# Ejemplos de como utilizar la API `lab_helpers` desde Ansible
+# para guardar un documento en la base de datos.
+# ---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  vars_files:
+    - ./vars/lab_helpers.yml
+    - ./vars/credentials.yml
+  tasks:
+    - name: Obtenemos las credenciales de acceso
+      uri:
+        url: '{{lab_helpers_url}}/api/auth/login/'
+        method: POST
+        body:
+          email: '{{lab_helpers_email}}'
+          password: '{{lab_helpers_password}}'
+        body_format: json
+        headers:
+          'Content-Type': 'application/json'
+        return_content: yes
+      register: output
+    - name: Registramos el token de acceso en una variable
+      set_fact:
+        access_token: '{{output["json"]["accessToken"]}}'
+    - name: Guardamos un documento en la base
+      uri:
+        url: '{{lab_helpers_url}}/api/v1/documents/'
+        method: POST
+        body: '{{hostvars}}'
+        body_format: json
+        headers:
+          'Content-Type': 'application/json'
+          'Authorization': 'Bearer {{access_token}}'
+        return_content: yes
+      register: output
+    - debug:
+        var: output
 ```
 
 En este caso la salida almacenada en `output` sería algo como:
@@ -26,8 +54,7 @@ En este caso la salida almacenada en `output` sería algo como:
 {
   "created": "2018-10-17T20:40:37.275Z",
   "data": {
-    "hostname": "1.2.3.4",
-    "something": "awesome"
+    # ...
   },
   "id": "cjndmfau300006j1bvhylyjfx",
   "type": "documents",
@@ -44,36 +71,70 @@ Luego podemos recuperar la información almacenada ahí a través de la siguient
 También podemos subir archivos enteros. Por ejemplo, llaves privadas creadas con el módulo `ec2_key`:
 
 ```yaml
-- name: create a new ec2 key pair
-  ec2_key:
-    name: '{{aws_key_pair_name}}'
-  register: pair
-- name: 'save the key {{aws_key_pai_name}} on a remote repository'
-  uri:
-    url: '{{lab_helpers_url}}/helpers/api/v1/uploads/text/'
-    method: POST
-    body:
-      text: '{{pair.key.private_key}}'
-      filename: '{{aws_key_pair_name}}.pem'
-    body_format: json
-    headers:
-      'Content-Type': 'application/json'
-      'Authorization': 'Bearer {{lab_helpers_access_token}}'
-    return_content: yes
-  register: output
+# ---
+# lab_helpers_store_file_example.yml
+#
+# Ejemplos de como utilizar la API `lab_helpers` desde Ansible
+# para almacenar un archivo en el servidor.
+# ---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  vars_files:
+    - ./vars/lab_helpers.yml
+    - ./vars/credentials.yml
+  tasks:
+    - name: Obtenemos las credenciales de acceso
+      uri:
+        url: '{{lab_helpers_url}}/api/auth/login/'
+        method: POST
+        body:
+          email: '{{lab_helpers_email}}'
+          password: '{{lab_helpers_password}}'
+        body_format: json
+        headers:
+          'Content-Type': 'application/json'
+        return_content: yes
+      register: output
+    - name: Registramos el token de acceso en una variable
+      set_fact:
+        access_token: '{{output["json"]["accessToken"]}}'
+    - name: Guardamos este playbook en el servidor
+      uri:
+        url: '{{lab_helpers_url}}/api/v1/uploads/text/'
+        method: POST
+        body:
+          text: '{{lookup("file", "./lab_helpers_store_file_example.yml")}}'
+          filename: 'lab_helpers_store_file_example.yml'
+        body_format: json
+        headers:
+          'Content-Type': 'application/json'
+          'Authorization': 'Bearer {{access_token}}'
+        return_content: yes
+      register: output
+    - debug:
+        var: output
 ```
 
 En este caso la salida sería algo así:
 
 ```json
 {
-  "created": "2018-10-17T20:56:22.945Z",
-  "filename": "awx.pem",
-  "id": "cjndmzkip0002p51b73s08lr2",
-  "type": "files",
-  "url": "/helpers/api/v1/files/awx.pem"
+   "created": "2018-10-20T01:08:54.366Z",
+    "filename": "lab_helpers_store_file_example.yml",
+    "id": "cjngqw0ri00027i1bukowweu9",
+    "type": "files",
+    "url": "/helpers/api/v1/files/lab_helpers_store_file_example.yml"
 }
 ```
+
+Y para recuperarlo lo haríamos en la siguiente dirección:
+
+```bash
+{{lab_helpers_url}}/helpers/api/v1/files/lab_helpers_store_file_example.yml
+```
+
+_OBS: importante notar que las credenciales las estoy almacenando en un archivo protegido con `ansible-vault`._
 
 ## API
 
