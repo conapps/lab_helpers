@@ -75,7 +75,15 @@ En este caso la salida sería algo así:
 }
 ```
 
-## Getting Started
+## API
+
+La documentación de la versión `1.0.0` se puede encontrar en el siguiente link:
+
+[https://ansibletower.conatest.click/helpers/api-docs/#/](https://ansibletower.conatest.click/helpers/api-docs/#/)
+
+También se puede reconstruir levantando la aplicación localmente o a partir del archivo `swagger.json` en la raiz del repositorio.
+
+## Ejecutar la aplicación
 
 Para poder correr la aplicación es necesario cargar una serie de variables de entorno. Las podemos configurar en el servidor, o localmente a través del archivo `.env`. Por ejemplo, algo así:
 
@@ -109,10 +117,6 @@ pm2 start index.js --name lab_helpers
 ```
 
 _OBS: `pm2` puede instalarse globalmente por npm: `npm install -g pm2`._
-
-## API
-
-TODO
 
 ## Licencia
 
