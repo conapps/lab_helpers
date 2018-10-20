@@ -11,11 +11,11 @@ const BASE_PATH = config.basePath;
 const RESOURCE = '/api/v1';
 
 exports = module.exports = {
-  makeURL: function (prefix, path, {resource, noEndSlash = false} = {}) {
-    resource = resource === undefined
-      ? RESOURCE
-      : resource;
-    return `${PREFIX}${resource}/${prefix}/${path}${noEndSlash === true ? '' : '/'}`
+  makeURL: function(prefix, path, { resource, noEndSlash = false } = {}) {
+    resource = resource === undefined ? RESOURCE : resource;
+    return `${BASE_PATH}${resource}/${prefix}/${path}${
+      noEndSlash === true ? '' : '/'
+    }`;
   },
   handleSuccess: function(res, result, { status = 200 } = {}) {
     return res.status(status).json(result);
