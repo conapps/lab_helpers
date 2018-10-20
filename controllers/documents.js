@@ -231,8 +231,10 @@ router.get('/:id/', (req, res) => {
  *    tags:
  *      - documents
  *    responses:
- *      204:
- *        $ref: '#/responses/NoContent'
+ *      200:
+ *        description: El documento buscado.
+ *        schema:
+ *          $ref: '#/definitions/Document'
  *      400:
  *        $ref: '#/responses/Error'
  *      401:
