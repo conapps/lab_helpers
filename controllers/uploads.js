@@ -24,7 +24,7 @@ exports = module.exports = router;
 /** Routes */
 /**
  * @swagger
- * /api/v1/upload/text/:
+ * /api/v1/uploads/text/:
  *  post:
  *    summary: Almacena un archivo de texto en el servidor.
  *    description: >
@@ -81,7 +81,7 @@ router.post('/text', (req, res) => {
 });
 /**
  * @swagger
- * /api/v1/upload/json/:
+ * /api/v1/uploads/json/:
  *  post:
  *    summary: Almacena un archivo JSON en el servidor.
  *    description: >

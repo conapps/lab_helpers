@@ -460,7 +460,7 @@
         }
       }
     },
-    "/api/v1/upload/text/": {
+    "/api/v1/uploads/text/": {
       "post": {
         "summary": "Almacena un archivo de texto en el servidor.",
         "description": "El string de texto enviado en la variable `text` del cuerpo del mensaje es almacenado como un archivo en el servidor. El nombre del mismo puede indicarse a través de la llave `filename` incluida la extensión. En caso de no configurarla, se le asignara un codigo aleatorio al archivo.\n",
@@ -505,7 +505,7 @@
         }
       }
     },
-    "/api/v1/upload/json/": {
+    "/api/v1/uploads/json/": {
       "post": {
         "summary": "Almacena un archivo JSON en el servidor.",
         "description": "El objeto JSON enviado en la variable `json` del cuerpo del mensaje es almacenado como un archivo en el servidor. El nombre con el cual será almacenado corresponderá a un codigo aleatorio tipo `cuid`.\n",
