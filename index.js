@@ -15,6 +15,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const passport = require('passport');
 
+const package = require('./package.json');
 /** Load environment variables from .env file. */
 dotenv.load({ path: process.env.APP_ENV_PATH || '.env' });
 
@@ -74,6 +75,7 @@ app.use(
 app.get('/api', (req, res, next) => {
   res.status(200).json({
     description: 'AWX Helper API',
+    version: package.version,
     current_version: '/api/v1/',
     available_versions: {
       v1: '/api/v1/'

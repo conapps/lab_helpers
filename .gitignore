@@ -2,6 +2,7 @@
 db
 .env
 uploads
+scripts
 
 # Logs
 logs
