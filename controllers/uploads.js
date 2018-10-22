@@ -16,7 +16,6 @@ const router = express.Router();
 
 /** Constants */
 const type = 'files';
-const prefix = 'uploads';
 
 /** Exports */
 exports = module.exports = router;
@@ -155,5 +154,5 @@ router.post('/json/', (req, res) => {
 /** Functions */
 function makePath(filename) {
   const directory = path.resolve(__dirname, '../');
-  return `${directory}/${prefix}/${filename}`;
+  return `${directory}/uploads/${path.basename(filename)}`;
 }
