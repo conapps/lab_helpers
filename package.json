@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "NODE_ENV=development nodemon index.js --ignore db/*",
-    "docs": "node docs.js"
+    "docs": "node docs.js",
+    "predeploy": "node docs.js && git commit -am 'deployed new version' && git push origin master",
+    "deploy": "ansible-playbook scripts/deploy.yml"
   },
   "keywords": [],
   "author": "",
