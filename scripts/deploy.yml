@@ -1,0 +1,25 @@
+# ---
+# deploy.yml
+#
+# Actualiza la versión de la aplicación en el servidor remoto.
+# ---
+
+- name: Actualizar la versión en el servidor
+  hosts: awx
+  gather_facts: no
+  become: no
+  tasks: 
+    - name: Descargar la nueva versión del repositorio
+      block:
+        - git:
+            repo: 'https://github.com/conapps/lab_helpers.git'
+            dest: /home/ubuntu/lab_helper
+      rescue:
+        - debug:
+            msg: 'Ya cuenta con la última versión'
+
+    - name: Instalamos nuevas dependencias en el servidor
+      shell: 'cd /home/ubuntu/lab_helper && npm install --production'
+
+    - name: Reiniciamos PM2
+      shell: 'cd /home/ubuntu/lab_helper && /usr/bin/pm2 restart lab_helpers'

@@ -34,6 +34,10 @@ exports = module.exports = {
     console.error(err);
     res.status(404).send('Not Found');
   },
+  notAuthorized: function(res, err) {
+    if (err) console.error(err);
+    res.status(401).send('User is not authorized');
+  },
   noContent: function(res) {
     res.status(204).send();
   },
@@ -49,8 +53,8 @@ exports = module.exports = {
       items
     };
   },
-  makeItem: function(type, data) {
-    const id = cuid();
+  makeItem: function(type, data, id) {
+    id || (id = cuid());
     return {
       id,
       created: new Date().toISOString(),

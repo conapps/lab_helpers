@@ -2,7 +2,9 @@
 db
 .env
 uploads
-scripts
+
+scripts/*.pem
+scripts/inventory.yml
 
 # Logs
 logs
