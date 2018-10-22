@@ -58,7 +58,7 @@ exports = module.exports = router;
  */
 router.post('/text/', (req, res) => {
   const body = req.body.text;
-  const filename = req.body.filename || cuid();
+  const filename = path.basename(req.body.filename) || cuid();
   if (body === undefined || typeof body !== 'string') {
     res.status(400).json({
       error: 'The variable "text" is undefined or not a string'
@@ -154,5 +154,5 @@ router.post('/json/', (req, res) => {
 /** Functions */
 function makePath(filename) {
   const directory = path.resolve(__dirname, '../');
-  return `${directory}/uploads/${path.basename(filename)}`;
+  return `${directory}/uploads/${filename}`;
 }
