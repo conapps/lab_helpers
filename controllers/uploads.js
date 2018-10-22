@@ -57,7 +57,7 @@ exports = module.exports = router;
  *      500:
  *        $ref: '#/responses/ServerError'
  */
-router.post('/text', (req, res) => {
+router.post('/text/', (req, res) => {
   const body = req.body.text;
   const filename = req.body.filename || cuid();
   if (body === undefined || typeof body !== 'string') {
@@ -113,7 +113,7 @@ router.post('/text', (req, res) => {
  *      500:
  *        $ref: '#/responses/ServerError'
  */
-router.post('/json', (req, res) => {
+router.post('/json/', (req, res) => {
   let json = req.body.json;
 
   const id = cuid();
