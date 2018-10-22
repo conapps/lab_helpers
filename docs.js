@@ -6,12 +6,14 @@
 const fs = require('fs');
 const swaggerJSDoc = require('swagger-jsdoc');
 
+const package = require('./package.json');
+
 /** Configuration Object */
 const options = {
   definition: {
     info: {
       title: 'Lab Helpers',
-      version: '1.0.0',
+      version: package.version,
       description:
         'API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias.'
     },

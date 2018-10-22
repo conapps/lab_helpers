@@ -8,7 +8,7 @@
     "serve": "NODE_ENV=development nodemon index.js --ignore db/*",
     "docs": "node docs.js",
     "predeploy": "node docs.js && git diff-index --quiet HEAD || git commit -am 'deployed new version' && git push origin master",
-    "deploy": "cd scripts && ansible-playbook scripts/deploy.yml"
+    "deploy": "cd scripts && ansible-playbook deploy.yml"
   },
   "keywords": [],
   "author": "",
