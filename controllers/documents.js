@@ -4,12 +4,11 @@
  * Documents resource controller
  */
 const express = require('express');
-const cuid = require('cuid');
 const isNumber = require('lodash/isNumber');
-const omit = require('lodash/omit');
 
 const db = require('../modules/db.js');
 const utils = require('../modules/utils.js');
+const model = require('../models/documents.js');
 /** Create the express router */
 const router = express.Router();
 
@@ -152,10 +151,8 @@ router.post('/', (req, res) => {
     }
   }
 
-  const item = utils.makeItem(TYPE, doc);
-  db.get(TYPE)
-    .push(item)
-    .write();
+  const item = model.create(doc);
+
   return utils.handleSuccess(res, item);
 });
 /**
@@ -191,15 +188,14 @@ router.post('/', (req, res) => {
  */
 router.get('/:id/', (req, res) => {
   const id = req.params.id;
+  let item;
 
-  if (id === undefined) {
-    return utils.notFound(res);
+  try {
+    item = model.get(id);
+  } catch (err) {
+    console.error(err);
+    return utils.handleError(res, err.message);
   }
-
-  const item = db
-    .get(TYPE)
-    .find({ id })
-    .value();
 
   if (item === undefined) {
     return utils.notFound(res);
@@ -246,27 +242,15 @@ router.get('/:id/', (req, res) => {
  */
 router.put('/:id/', (req, res) => {
   const id = req.params.id;
+  const body = req.body;
+  let item;
 
-  if (id === undefined) return utils.handleError(res, '"id" is undefined');
-
-  const data = omit(req.body, 'id');
-
-  if (data === undefined) return utils.handleError(res, '"data" is undefined');
-
-  let item = db
-    .get(TYPE)
-    .find({ id })
-    .value();
-  item = db
-    .get(TYPE)
-    .find({ id })
-    .assign(
-      Object.assign({}, item, {
-        data: Object.assign({}, item.data, data),
-        updated: new Date().toISOString()
-      })
-    )
-    .write();
+  try {
+    item = model.update(id, body);
+  } catch (err) {
+    console.error(err);
+    return utils.handleError(res, err.message);
+  }
 
   utils.handleSuccess(res, item);
 });
@@ -302,11 +286,13 @@ router.put('/:id/', (req, res) => {
 router.delete('/:id/', (req, res) => {
   const id = req.params.id;
 
-  if (id === undefined) return utils.handleError(res, '"id" is undefined');
-
-  db.get(TYPE)
-    .remove({ id })
-    .write();
+  try {
+    model.remove(id);
+  } catch (err) {
+    console.error(err);
+    return utils.handleError(res, err.message);
+  }
 
   utils.noContent(res);
 });
+/** Functions */

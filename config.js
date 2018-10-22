@@ -11,5 +11,5 @@ exports = module.exports = {
       ? `http://${process.env.HOST}:${process.env.PORT}`
       : process.env.APP_HOST,
   basePath:
-    process.env.NODE_ENV === 'development' ? '/' : process.env.APP_BASE_PATH
+    process.env.NODE_ENV === 'development' ? '' : process.env.APP_BASE_PATH
 };
