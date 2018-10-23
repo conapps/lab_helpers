@@ -109,7 +109,8 @@ app.get('/api/v1/', (req, res) => {
   res.status(200).json({
     files: '/api/v1/files/',
     uploads: '/api/v1/uploads/',
-    documents: '/api/v1/documents/'
+    documents: '/api/v1/documents/',
+    jobs: '/api/v1/jobs/'
   });
 });
 /**
