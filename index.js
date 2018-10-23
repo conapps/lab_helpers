@@ -155,11 +155,17 @@ app.use(
   passport.authenticate('jwt', { session: false }),
   require('./controllers/uploads.js')
 );
-/** Documents Route */
+/** Documents Routes */
 app.use(
   '/api/v1/documents/',
   passport.authenticate('jwt', { session: false }),
   require('./controllers/documents.js')
+);
+/** Jobs Routes */
+app.use(
+  '/api/v1/jobs/',
+  passport.authenticate('jwt', { session: false }),
+  require('./controllers/jobs.js')
 );
 /** Error Handler */
 if (process.env.NODE_ENV === 'development') {
