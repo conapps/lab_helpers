@@ -112,9 +112,6 @@ app.get('/api/v1/', (req, res) => {
     documents: '/api/v1/documents/'
   });
 });
-/** Authentication Routes */
-app.use('/api/auth/', require('./controllers/auth.js'));
-/** Authenticated routes */
 /**
  * @swagger
  * /api/v1/files/{filename}:
@@ -148,9 +145,10 @@ app.use('/api/auth/', require('./controllers/auth.js'));
  */
 app.use(
   '/api/v1/files/',
-  passport.authenticate('jwt', { session: false }),
   express.static(path.join(__dirname, 'uploads'), { maxAge: 31557600000 })
 );
+/** Authentication Routes */
+app.use('/api/auth/', require('./controllers/auth.js'));
 /** Upload Routes */
 app.use(
   '/api/v1/uploads/',
