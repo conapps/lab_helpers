@@ -190,7 +190,7 @@ router.get(
 );
 /**
  * @swagger
- * /api/v1/jobs/cancel/:id/:
+ * /api/v1/jobs/relaunch/:id/:
  *  get:
  *    summary: Reinicia la ejecución del `job`
  *    parameters:
