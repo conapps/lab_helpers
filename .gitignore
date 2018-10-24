@@ -6,6 +6,8 @@ uploads
 scripts/*.pem
 scripts/inventory.yml
 
+package-lock.json
+
 # Logs
 logs
 *.log
