@@ -91,7 +91,7 @@ router.get(
  * @swagger
  * /api/v1/jobs/stdout/:id/:
  *  get:
- *    summary: Detiene la ejecución del `job`.
+ *    summary: Devuelve la salida del `job`.
  *    description: 'Devuelve la salida en distintos formatos de la ejecución del `job`. Los formator permitidos son: `html`, `txt`, `ansi`, `json`, `txt_download`, `ansi_download`. También se puede indicar si se quiere la versión con fondo oscuro o no a través de la opción `dark` que puede tomar valores de `1` para si y `0` para no. Su valor por defecto es `1`.'
  *    parameters:
  *      - in: params
