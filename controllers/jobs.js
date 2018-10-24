@@ -92,7 +92,7 @@ router.get(
  * /api/v1/jobs/stdout/:id/:
  *  get:
  *    summary: Detiene la ejecución del `job`.
- *    description: Devuelve la salida en distintos formatos de la ejecución del `job`. Los formator permitidos son: `html`, `txt`, `ansi`, `json`, `txt_download`, `ansi_download`. También se puede indicar si se quiere la versión con fondo oscuro o no a través de la opción `dark` que puede tomar valores de `1` para si y `0` para no. Su valor por defecto es `1`.
+ *    description: 'Devuelve la salida en distintos formatos de la ejecución del `job`. Los formator permitidos son: `html`, `txt`, `ansi`, `json`, `txt_download`, `ansi_download`. También se puede indicar si se quiere la versión con fondo oscuro o no a través de la opción `dark` que puede tomar valores de `1` para si y `0` para no. Su valor por defecto es `1`.'
  *    parameters:
  *      - in: params
  *        name: id
@@ -117,9 +117,9 @@ router.get(
  *      - jobs
  *    responses:
  *      200:
- *        description: Stream de ejecución del `job` en el formato especificado.
+ *        description: 'Stream de ejecución del `job` en el formato especificado.'
  *        produces:
-            - text/html; charset=utf-8
+ *          - 'text/html; charset=utf-8'
  *      400:
  *        $ref: '#/responses/Error'
  *      401:
