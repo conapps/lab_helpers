@@ -91,7 +91,7 @@ async function getJobStdout(jobId, { format, dark } = {}) {
   return data;
 }
 
-async function launchJobTemplate(name) {
+async function launchJobTemplate(name, extraVars) {
   try {
     const id = await getJobTemplateIDByName(name);
     const url = `${API}/api/v2/job_templates/${id}/launch/`;
@@ -99,10 +99,7 @@ async function launchJobTemplate(name) {
     const { data } = await axios.post(
       url,
       {
-        extra_vars: {
-          lab_pod: 2,
-          aws_region: 'us-east-1'
-        }
+        extra_vars: extraVars
       },
       CONFIG
     );

@@ -109,15 +109,16 @@ router.get(
  *      500:
  *        $ref: '#/responses/ServerError'
  */
-router.get(
+router.post(
   '/launch/:name/',
   asyncMiddleware(async (req, res) => {
     const name = req.params.name;
+    const body = req.body || {};
 
     if (name === undefined)
       utils.handleError(res, 'job template "name" is undefined');
 
-    const result = await awx.launchJobTemplate(name);
+    const result = await awx.launchJobTemplate(name, body);
 
     let job = jobs.create({
       description: result.description,
