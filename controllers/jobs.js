@@ -25,8 +25,8 @@ const AWX_API_URL = process.env.AWX_API_URL;
  * @swagger
  * /api/v1/jobs/launch/:name/:
  *  post:
- *    summary: Corre un `template` en el servidor de AWX o Ansible Tower.
- *    description: Endpoint para lanzar un `template` en el servidor. En la respuesta se incluye toda la información para interactuar con este trabajo. Por ejemplo: cancelar, relanzar, y ver en tiempo real su ejecución.
+ *    summary: Corre un `job_template` en el servidor de AWX o Ansible Tower.
+ *    description: 'Endpoint para lanzar un `template` en el servidor. En la respuesta se incluye toda la información para interactuar con este trabajo. Por ejemplo: cancelar, relanzar, y ver en tiempo real su ejecución.'
  *    parameters:
  *      - in: params
  *        name: name
