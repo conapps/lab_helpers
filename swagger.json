@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "Lab Helpers",
-    "version": "1.8.1",
+    "version": "1.9.0",
     "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
   },
   "consumes": [
@@ -485,6 +485,50 @@
         "responses": {
           "204": {
             "$ref": "#/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/:id/": {
+      "get": {
+        "summary": "Devuelve el `job` buscado.",
+        "description": "Devuelve la información de un `job` identificado por su `id`.",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "ID del `job`."
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "jobs"
+        ],
+        "responses": {
+          "200": {
+            "description": "El `job` buscado.",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
           },
           "400": {
             "$ref": "#/responses/Error"
@@ -1060,6 +1104,16 @@
           "type": "string",
           "description": "Nombre del `playbook` que el `job` esta ejecutando.",
           "example": "pod_down.yml"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado del `job`.",
+          "example": "pending",
+          "enum": [
+            "pending",
+            "successful",
+            "failed"
+          ]
         }
       }
     },
