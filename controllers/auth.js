@@ -160,7 +160,13 @@ router.post('/refresh/', (req, res) => {
 
   refreshTokens.remove(token).write();
 
-  const decoded = jwt.verify(token, JWT_SECRET);
+  let decoded;
+
+  try {
+    decoded = jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    return utils.handleError(res, err);
+  }
 
   const idToken = jwt.sign(
     Object.assign({}, decoded.user, { sub: 'id' }),
