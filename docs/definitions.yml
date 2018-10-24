@@ -252,6 +252,13 @@ definitions:
         $ref: '#/definitions/DocumentURL'
       updated:
         $ref: '#/definitions/UpdatedDate'
+  RefreshToken:
+    type: object
+    description: Argumentos necesarios para refrescar los tokens de autenticación.
+    properties:
+      token:
+        type: string
+        description: Token JWT para refrescar los tokens de autenticación. Identificado como `refreshToken`.
   Document:
     type: object
     description: Documento JSON almacenado en la base.
