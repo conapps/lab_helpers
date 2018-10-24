@@ -23,7 +23,7 @@ const AWX_API_URL = process.env.AWX_API_URL;
 /** Routes */
 /**
  * @swagger
- * /api/v1/jobs/:id/:
+ * /api/v1/jobs/{id}/:
  *  get:
  *    summary: Devuelve el `job` buscado.
  *    description: 'Devuelve la información de un `job` identificado por su `id`.'
@@ -74,7 +74,7 @@ router.get(
 );
 /**
  * @swagger
- * /api/v1/jobs/launch/:name/:
+ * /api/v1/jobs/launch/{name}/:
  *  post:
  *    summary: Corre un `job_template` en el servidor de AWX o Ansible Tower.
  *    description: 'Endpoint para lanzar un `template` en el servidor. En la respuesta se incluye toda la información para interactuar con este trabajo. Por ejemplo: cancelar, relanzar, y ver en tiempo real su ejecución.'
@@ -142,7 +142,7 @@ router.get(
 );
 /**
  * @swagger
- * /api/v1/jobs/stdout/:id/:
+ * /api/v1/jobs/stdout/{id}/:
  *  get:
  *    summary: Devuelve la salida del `job`.
  *    description: 'Devuelve la salida en distintos formatos de la ejecución del `job`. Los formator permitidos son: `html`, `txt`, `ansi`, `json`, `txt_download`, `ansi_download`. También se puede indicar si se quiere la versión con fondo oscuro o no a través de la opción `dark` que puede tomar valores de `1` para si y `0` para no. Su valor por defecto es `1`.'
@@ -198,7 +198,7 @@ router.get(
 );
 /**
  * @swagger
- * /api/v1/jobs/cancel/:id/:
+ * /api/v1/jobs/cancel/{id}/:
  *  get:
  *    summary: Cancela la ejecución del `job`
  *    parameters:
@@ -243,7 +243,7 @@ router.get(
 );
 /**
  * @swagger
- * /api/v1/jobs/relaunch/:id/:
+ * /api/v1/jobs/relaunch/{id}/:
  *  get:
  *    summary: Reinicia la ejecución del `job`
  *    parameters:
