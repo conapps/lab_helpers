@@ -190,6 +190,68 @@ definitions:
         $ref: '#/definitions/UpdatedDate'
       filename:
         $ref: '#/definitions/FileName'
+  JobData:
+    type: object
+    description: Detalle sobre un `job` de AWS o AnsibleTower
+    properties:
+      description:
+        type: string
+        description: Descripción del `job`.
+        example: Destruye un POD
+      extra_vars:
+        $ref: '#/definitions/AnyObject'
+      name:
+        type: string
+        description: Nombre del `job`.
+        example: Lab Pod - Down
+      playbook:
+        type: string
+        description: Nombre del `playbook` que el `job` esta ejecutando.
+        example: 'pod_down.yml'
+  JobRelatedLinks:
+    type: object
+    description: Lista de links relacionados con el `job`.
+    properties:
+      activity_stream:
+        type: string
+        description: URL para acceder al `activity_stream` del `job`.
+        pattern: '^(/[^/ ]*)+/?$'
+        example: '/helpers/api/v1/jobs/activity_stream/cjnn9z2970000zptca25ygpsi/'
+      cancel:
+        type: string
+        description: URL para cancelar la ejecución del `job`.
+        pattern: '^(/[^/ ]*)+/?$'
+        example: '/helpers/api/v1/jobs/cancel/cjnn9z2970000zptca25ygpsi/'
+      stdout:
+        type: string
+        description: URL para acceder a la salida de la ejecución del `job`.
+        pattern: '^(/[^/ ]*)+/?$'
+        example: '/helpers/api/v1/jobs/stdout/cjnn9z2970000zptca25ygpsi/'
+      relaunch:
+        type: string
+        description: URL para volver a lanzar la ejecución del `job`.
+        pattern: '^(/[^/ ]*)+/?$'
+        example: '/helpers/api/v1/jobs/relaunch/cjnn9z2970000zptca25ygpsi/'
+  Job:
+    type: object
+    description: Descripción de un `job` de AWX o Ansible Tower.
+    properties:
+      created:
+        $ref: '#/definitions/CreatedDate'
+      data:
+        $ref: '#/definitions/JobData'
+      id:
+        $ref: '#/definitions/ID'
+      type:
+        type: string
+        enum:
+          - jobs
+      related:
+        $ref: '#/definitions/JobRelatedLinks'
+      url:
+        $ref: '#/definitions/DocumentURL'
+      updated:
+        $ref: '#/definitions/UpdatedDate'
   Document:
     type: object
     description: Documento JSON almacenado en la base.

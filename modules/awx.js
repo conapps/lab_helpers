@@ -5,6 +5,7 @@
  */
 const axios = require('axios');
 
+const jobs = require('../models/jobs.js');
 /** Constants */
 const API = process.env.AWX_API_URL;
 const TOKEN = process.env.AWX_API_TOKEN;
@@ -13,19 +14,76 @@ const HEADERS = {
   'Content-Type': 'application/json',
   Accept: 'application/json'
 };
+const CONFIG = { headers: HEADERS };
+const ACCEPT =
+  'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8';
 
 /** Exports */
 exports = module.exports = {
-  launchJobTemplate: launchJobTemplate
+  launchJobTemplate,
+  getJobActivityStream,
+  getJobStdout,
+  cancelJob,
+  relaunchJob
 };
 
 /** Functions */
+async function getJobActivityStream(jobId) {
+  const job = jobs.get(jobId);
+
+  if (job === undefined) throw new Error('"job" is undefined');
+
+  const { data } = await axios(job.data.activity_stream_url, CONFIG);
+
+  return data;
+}
+
+async function cancelJob(jobId) {
+  const job = jobs.get(jobId);
+
+  if (job === undefined) throw new Error('"id" is undefined');
+
+  const { data: get_data } = await axios.get(job.data.cancel_url, CONFIG);
+
+  if (get_data.can_cacel === false) return get_data;
+
+  const { data: post_data } = await axios.post(job.data.cancel_url, {}, CONFIG);
+
+  return post_data;
+}
+
+async function relaunchJob(jobId) {
+  const job = jobs.get(jobId);
+
+  if (job === undefined) throw new Error('"id" is undefined');
+
+  const { data } = await axios.post(job.data.relaunch_url, {}, CONFIG);
+
+  return data;
+}
+
+async function getJobStdout(jobId, { format, dark } = {}) {
+  const job = jobs.get(jobId);
+
+  if (job === undefined) throw new Error('"id" is undefined');
+
+  const url = job.data.stdout_url + `?format=${format}&dark=${dark}`;
+  const config = Object.assign({}, CONFIG, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      Accept: ACCEPT
+    }
+  });
+
+  const { data } = await axios(url, config);
+
+  return data;
+}
+
 async function launchJobTemplate(name) {
   try {
     const id = await getJobTemplateIDByName(name);
     const url = `${API}/api/v2/job_templates/${id}/launch/`;
-
-    console.log(url);
 
     const { data } = await axios.post(
       url,
@@ -35,7 +93,7 @@ async function launchJobTemplate(name) {
           aws_region: 'us-east-1'
         }
       },
-      { headers: HEADERS }
+      CONFIG
     );
 
     return data;

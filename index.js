@@ -102,6 +102,7 @@ app.get('/api', (req, res, next) => {
  *            files: '/api/v1/files/'
  *            uploads: '/api/v1/uploads/'
  *            documents: '/api/v1/documents/'
+ *            jobs: '/api/v1/jobs/'
  *      500:
  *        $ref: '#/responses/ServerError'
  */
