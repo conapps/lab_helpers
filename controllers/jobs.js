@@ -23,6 +23,57 @@ const AWX_API_URL = process.env.AWX_API_URL;
 /** Routes */
 /**
  * @swagger
+ * /api/v1/jobs/:id/:
+ *  get:
+ *    summary: Devuelve el `job` buscado.
+ *    description: 'Devuelve la información de un `job` identificado por su `id`.'
+ *    parameters:
+ *      - in: params
+ *        name: id
+ *        type: string
+ *        minimum: 1
+ *        maximum: 1
+ *        description: ID del `job`.
+ *    security:
+ *      - JWTTokenAuthentication: []
+ *    tags:
+ *      - jobs
+ *    responses:
+ *      200:
+ *        description: El `job` buscado.
+ *        schema:
+ *          $ref: '#/definitions/Job'
+ *      400:
+ *        $ref: '#/responses/Error'
+ *      401:
+ *        $ref: '#/responses/Unauthorized'
+ *      404:
+ *        $ref: '#/responses/NotFound'
+ *      500:
+ *        $ref: '#/responses/ServerError'
+ */
+router.get(
+  '/:id/',
+  asyncMiddleware(async (req, res) => {
+    const id = req.params.id;
+
+    if (id === undefined) return utils.handleError(res, '"id" is undefined');
+
+    let job = jobs.get(id);
+
+    if (job === undefined) return utils.handleError(res, '"job" not found');
+
+    const { status } = await awx.getJob(id);
+
+    job.data.status = status;
+
+    job = mutateJob(job);
+
+    utils.handleSuccess(res, job);
+  })
+);
+/**
+ * @swagger
  * /api/v1/jobs/launch/:name/:
  *  post:
  *    summary: Corre un `job_template` en el servidor de AWX o Ansible Tower.
@@ -75,11 +126,13 @@ router.get(
       job_template_id: result.job_template,
       name: result.name,
       playbook: result.playbook,
+      status: result.status,
       stdout_url: `${AWX_API_URL}${result.related.stdout}`,
       activity_stream_url: `${AWX_API_URL}${result.related.activity_stream}`,
       cancel_url: `${AWX_API_URL}${result.related.cancel}`,
       job_events_url: `${AWX_API_URL}${result.related.job_events}`,
-      relaunch_url: `${AWX_API_URL}${result.related.relaunch}`
+      relaunch_url: `${AWX_API_URL}${result.related.relaunch}`,
+      job_url: `${AWX_API_URL}${result.url}`
     });
 
     job = mutateJob(job);
@@ -240,9 +293,12 @@ router.get(
 
 /** Functions */
 function mutateJob(job) {
-  const { id, data: { extra_vars, name, playbook, description } = {} } = job;
+  const {
+    id,
+    data: { extra_vars, name, playbook, description, status } = {}
+  } = job;
   job = omit(job, 'data');
-  job.data = { extra_vars, name, playbook, description };
+  job.data = { extra_vars, name, playbook, description, status };
   job.related = {
     stdout: utils.makeURL('jobs', `stdout/${id}`),
     activity_stream: utils.makeURL('jobs', `activity_stream/${id}`),

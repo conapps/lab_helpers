@@ -20,14 +20,25 @@ const ACCEPT =
 
 /** Exports */
 exports = module.exports = {
-  launchJobTemplate,
+  cancelJob,
+  getJob,
   getJobActivityStream,
   getJobStdout,
-  cancelJob,
+  launchJobTemplate,
   relaunchJob
 };
 
 /** Functions */
+async function getJob(jobId) {
+  const job = jobs.get(jobId);
+
+  if (job === undefined) throw new Error('"job" is undefined');
+
+  const { data } = await axios(job.data.job_url, CONFIG);
+
+  return data;
+}
+
 async function getJobActivityStream(jobId) {
   const job = jobs.get(jobId);
 

@@ -208,6 +208,14 @@ definitions:
         type: string
         description: Nombre del `playbook` que el `job` esta ejecutando.
         example: 'pod_down.yml'
+      status:
+        type: string
+        description: Estado del `job`.
+        example: pending
+        enum:
+          - pending
+          - successful
+          - failed
   JobRelatedLinks:
     type: object
     description: Lista de links relacionados con el `job`.

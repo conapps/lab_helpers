@@ -3,7 +3,6 @@
 #
 # Actualiza la versión de la aplicación en el servidor remoto.
 # ---
-
 - name: Actualizar la versión en el servidor
   hosts: awx
   gather_facts: no
