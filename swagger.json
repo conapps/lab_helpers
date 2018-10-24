@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "Lab Helpers",
-    "version": "1.7.4",
+    "version": "1.8.0",
     "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
   },
   "consumes": [
@@ -157,6 +157,46 @@
             "description": "Credenciales de usuario. Ambos campos son obligatorios.",
             "schema": {
               "$ref": "#/definitions/Credentials"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Tokens"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/refresh/": {
+      "post": {
+        "summary": "Refresca los tokens de acceso e identidad.",
+        "description": "El `refreshToken` es valido por 30 días. Durante este tiempo, el usuario puede intercambiarlo por nuevos tokens.\n",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "refreshToken",
+            "required": true,
+            "description": "Token para refrescar los tokens de autenticación.",
+            "schema": {
+              "$ref": "#/definitions/RefreshToken"
             }
           }
         ],
@@ -1080,6 +1120,16 @@
         },
         "updated": {
           "$ref": "#/definitions/UpdatedDate"
+        }
+      }
+    },
+    "RefreshToken": {
+      "type": "object",
+      "description": "Argumentos necesarios para refrescar los tokens de autenticación.",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Token JWT para refrescar los tokens de autenticación. Identificado como `refreshToken`."
         }
       }
     },
