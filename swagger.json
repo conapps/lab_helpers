@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "Lab Helpers",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
   },
   "consumes": [
@@ -573,6 +573,46 @@
       }
     },
     "/api/v1/jobs/cancel/:id/": {
+      "get": {
+        "summary": "Cancela la ejecución del `job`",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "ID del `job`."
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "jobs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/relaunch/:id/": {
       "get": {
         "summary": "Reinicia la ejecución del `job`",
         "parameters": [
