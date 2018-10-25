@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "Lab Helpers",
-    "version": "1.11.0",
+    "version": "1.12.0",
     "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
   },
   "consumes": [
@@ -11,10 +11,10 @@
     "application/json",
     "text/html"
   ],
-  "host": "127.0.0.1:8081",
-  "basePath": "",
+  "host": "ansibletower.conatest.click",
+  "basePath": "/helpers/",
   "schemes": [
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "SecretAuthentication": {
