@@ -168,8 +168,14 @@ app.use(
   passport.authenticate('jwt', { session: false }),
   require('./controllers/jobs.js')
 );
+/** Labs Routes */
+app.use(
+  '/api/v1/labs/',
+  passport.authenticate('jwt', { session: false }),
+  require('./controllers/labs.js')
+);
 /** Error Handler */
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.log(err.name);
   var error = {
     name: err.name

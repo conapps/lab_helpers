@@ -567,7 +567,7 @@
             "name": "document",
             "description": "Objeto JSON.",
             "schema": {
-              "$ref": "#/definitions/Labs"
+              "$ref": "#/definitions/Lab"
             }
           }
         ],
@@ -662,7 +662,7 @@
             "name": "document",
             "description": "Objeto JSON.",
             "schema": {
-              "$ref": "#/definitions/Labs"
+              "$ref": "#/definitions/Lab"
             }
           }
         ],
