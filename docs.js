@@ -50,6 +50,7 @@ const options = {
     './index.js',
     './controllers/auth.js',
     './docs/documents.yml',
+    './docs/labs.yml',
     './controllers/*.js'
   ]
 };

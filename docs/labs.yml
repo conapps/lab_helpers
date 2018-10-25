@@ -1,0 +1,151 @@
+paths:
+  /api/v1/labs/:
+    get:
+      summary: Devuelve una lista paginada de laboratorios.
+      parameters:
+        - in: query
+          name: limit
+          type: number
+          minimum: 1
+          maximum: 100
+          description: Limite de laboratorios a devolver.
+        - in: query
+          name: offset
+          type: number
+          minimum: 0
+          description: Valor de offset según el cual se paginan los resultados.
+        - in: query
+          name: sortBy
+          type: string
+          default: id
+          description: >
+            Valor de la variable por la cual se ordenan los resultados.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - labs
+      responses:
+        200:
+          description: Lista paginada de laboratorios.
+          schema:
+            $ref: '#/definitions/Labs'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+    post:
+      summary: Crea un nuevo laboratorio.
+      parameters:
+        - in: body
+          required: true
+          name: document
+          description: Objeto JSON.
+          schema:
+            $ref: '#/definitions/Labs'
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - labs
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Labs'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+  /api/v1/labs/{id}/:
+    get:
+      summary: Devuelve un laboratorio según su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del laboratorio.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - labs
+      responses:
+        200:
+          description: El laboratorio buscado.
+          schema:
+            $ref: '#/definitions/Labs'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+    put:
+      summary: Actualiza un laboratorio identificado por su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del laboratorio.
+        - in: body
+          required: true
+          name: document
+          description: Objeto JSON.
+          schema:
+            $ref: '#/definitions/Labs'
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - labs
+      responses:
+        200:
+          description: El laboratorio buscado.
+          schema:
+            $ref: '#/definitions/Labs'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+    delete:
+      summary: Elimina un laboratorio según su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del laboratorio.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - labs
+      responses:
+        204:
+          $ref: '#/responses/NoContent'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'

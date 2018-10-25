@@ -502,6 +502,239 @@
         }
       }
     },
+    "/api/v1/labs/": {
+      "get": {
+        "summary": "Devuelve una lista paginada de laboratorios.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Limite de laboratorios a devolver."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "type": "number",
+            "minimum": 0,
+            "description": "Valor de offset según el cual se paginan los resultados."
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "id",
+            "description": "Valor de la variable por la cual se ordenan los resultados.\n"
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "labs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista paginada de laboratorios.",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crea un nuevo laboratorio.",
+        "parameters": [
+          {
+            "in": "body",
+            "required": true,
+            "name": "document",
+            "description": "Objeto JSON.",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "labs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/v1/labs/{id}/": {
+      "get": {
+        "summary": "Devuelve un laboratorio según su 'id'.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "ID del laboratorio."
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "labs"
+        ],
+        "responses": {
+          "200": {
+            "description": "El laboratorio buscado.",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualiza un laboratorio identificado por su 'id'.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "ID del laboratorio."
+          },
+          {
+            "in": "body",
+            "required": true,
+            "name": "document",
+            "description": "Objeto JSON.",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "labs"
+        ],
+        "responses": {
+          "200": {
+            "description": "El laboratorio buscado.",
+            "schema": {
+              "$ref": "#/definitions/Labs"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Elimina un laboratorio según su 'id'.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "ID del laboratorio."
+          }
+        ],
+        "security": [
+          {
+            "JWTTokenAuthentication": []
+          }
+        ],
+        "tags": [
+          "labs"
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
     "/api/v1/jobs/{id}/": {
       "get": {
         "summary": "Devuelve el `job` buscado.",
@@ -1185,6 +1418,72 @@
         "token": {
           "type": "string",
           "description": "Token JWT para refrescar los tokens de autenticación. Identificado como `refreshToken`."
+        }
+      }
+    },
+    "Lab": {
+      "type": "object",
+      "description": "Laboratorio",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Ansible Lab",
+          "description": "Nombre del laboratorio"
+        },
+        "startDate": {
+          "type": "string",
+          "example": "2018-10-13",
+          "description": "Fecha de inicio del laboratorio"
+        },
+        "endDate": {
+          "type": "string",
+          "example": "2018-10-15",
+          "description": "Fecha de finalización del laboratorio"
+        },
+        "runPlaybook": {
+          "type": "string",
+          "example": "Ansible Lab - Up",
+          "description": "Nombre del `job_template` en AWX o Ansible Tower que se debe ejecutar para levantar el laboratorio."
+        },
+        "endPlaybook": {
+          "type": "string",
+          "example": "Ansible Lab - Down",
+          "description": "Nombew del `job_template` en AWS o Ansible Tower que se debe ejecutar para destruir el laboratorio."
+        },
+        "diagramURL": {
+          "description": "URL que apunta hacia un diagrama de red",
+          "type": "string",
+          "pattern": "^(/http?s:\\/\\/[^/ ]*)+/?$",
+          "example": "https://example.com/diagrama.png"
+        }
+      }
+    },
+    "Labs": {
+      "type": "object",
+      "description": "Metadatos asociados a un Laboratorio",
+      "properties": {
+        "created": {
+          "$ref": "#/definitions/CreatedDate"
+        },
+        "data": {
+          "$ref": "#/definitions/Lab"
+        },
+        "id": {
+          "$ref": "#/definitions/ID"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "documents"
+          ],
+          "description": "Tipo del recurso.",
+          "example": "document"
+        },
+        "url": {
+          "$ref": "#/definitions/DocumentURL"
+        },
+        "updated": {
+          "$ref": "#/definitions/UpdatedDate"
         }
       }
     },

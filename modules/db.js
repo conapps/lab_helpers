@@ -17,4 +17,10 @@ const db = low(adapter);
 exports = module.exports = db;
 
 /** Defaults */
-db.defaults({ users: [], documents: [], jobs: [], refreshTokens: [] }).write();
+db.defaults({
+  documents: [],
+  jobs: [],
+  labs: [],
+  refreshTokens: [],
+  users: []
+}).write();
