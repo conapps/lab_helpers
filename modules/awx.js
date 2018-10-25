@@ -95,8 +95,6 @@ async function launchJobTemplate(name, extraVars) {
   const id = await getJobTemplateIDByName(name);
   const url = `${API}/api/v2/job_templates/${id}/launch/`;
 
-  console.log(url);
-
   const { data } = await axios.post(
     url,
     {
@@ -114,8 +112,6 @@ async function launchJobTemplate(name, extraVars) {
 async function getJobTemplateIDByName(name) {
   try {
     const url = `${API}/api/v2/job_templates/?name=${name}`;
-
-    console.log(url);
 
     const { data } = await axios.get(url, {
       headers: HEADERS

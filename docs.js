@@ -18,7 +18,7 @@ const options = {
         'API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias.'
     },
     consumes: ['application/json'],
-    produces: ['application/json'],
+    produces: ['application/json', 'text/html'],
     host: 'ansibletower.conatest.click',
     basePath: '/helpers/',
     schemes: ['https'],
