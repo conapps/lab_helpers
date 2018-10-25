@@ -10,7 +10,6 @@ const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const compression = require('compression');
-const errorHandler = require('errorhandler');
 const dotenv = require('dotenv');
 const path = require('path');
 const passport = require('passport');

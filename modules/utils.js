@@ -30,8 +30,8 @@ exports = module.exports = {
     }
     res.status(400).json({ error: message });
   },
-  notFound: function(res) {
-    console.error(err);
+  notFound: function(res, err) {
+    if (err) console.error(err);
     res.status(404).send('Not Found');
   },
   notAuthorized: function(res, err) {

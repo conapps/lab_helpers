@@ -1,0 +1,125 @@
+paths:
+  /api/v1/documents/:
+    get:
+      summary: Devuelve una lista de documentos paginada.
+      parameters:
+        - in: query
+          name: limit
+          type: number
+          minimum: 1
+          maximum: 100
+          description: Limite de documentos a devolver.
+        - in: query
+          name: offset
+          type: number
+          minimum: 0
+          description: Valor de offset según el cual se paginan los resultados.
+        - in: query
+          name: sortBy
+          type: string
+          default: id
+          description: >
+            Valor de la variable por la cual se ordenan los resultados.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - documents
+      responses:
+        200:
+          description: La lista de documentos paginada.
+          schema:
+            $ref: '#/definitions/Documents'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+  /api/v1/documents/{id}/:
+    get:
+      summary: Devuelve un documento según su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del documento.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - documents
+      responses:
+        200:
+          description: El documento buscado.
+          schema:
+            $ref: '#/definitions/Document'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+    put:
+      summary: Actualiza un documento identificado por su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del documento.
+        - in: body
+          required: true
+          name: document
+          description: Objeto JSON.
+          schema:
+            $ref: '#/definitions/AnyObject'
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - documents
+      responses:
+        200:
+          description: El documento buscado.
+          schema:
+            $ref: '#/definitions/Document'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'
+    delete:
+      summary: Elimina un documento según su 'id'.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          minimum: 1
+          maximum: 1
+          description: ID del documento.
+      security:
+        - JWTTokenAuthentication: []
+      tags:
+        - documents
+      responses:
+        204:
+          $ref: '#/responses/NoContent'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/Unauthorized'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/ServerError'

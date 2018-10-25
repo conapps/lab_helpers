@@ -7,6 +7,13 @@ const db = require('../modules/db.js');
 const utils = require('../modules/utils.js');
 
 exports = module.exports = function({ type } = {}) {
+  function index(sortBy, offset, limit) {
+    return db
+      .get(type)
+      .sortBy(sortBy)
+      .slice(offset, offset + limit)
+      .value();
+  }
   /**
    * Creates a new resource.
    * @param {object} body Body of the resource being created.
@@ -70,9 +77,13 @@ exports = module.exports = function({ type } = {}) {
   }
   /** Singleton */
   return {
+    index,
     create,
     update,
     get,
-    remove
+    remove,
+    get count() {
+      db.get(type).value().lenght;
+    }
   };
 };

@@ -5,8 +5,12 @@
  */
 const fs = require('fs');
 const swaggerJSDoc = require('swagger-jsdoc');
+const dotenv = require('dotenv');
 
 const package = require('./package.json');
+
+/** Read ENV files */
+dotenv.load({ path: process.env.APP_ENV_PATH || '.env' });
 
 /** Configuration Object */
 const options = {
@@ -19,9 +23,12 @@ const options = {
     },
     consumes: ['application/json'],
     produces: ['application/json', 'text/html'],
-    host: 'ansibletower.conatest.click',
-    basePath: '/helpers/',
-    schemes: ['https'],
+    host:
+      process.env.NODE_ENV === 'development'
+        ? `127.0.0.1:${process.env.PORT}`
+        : 'ansibletower.conatest.click',
+    basePath: process.env.NODE_ENV === 'development' ? `` : '/helpers/',
+    schemes: [process.env.NODE_ENV === 'development' ? 'http' : 'https'],
     securityDefinitions: {
       SecretAuthentication: {
         type: 'apiKey',
@@ -41,6 +48,8 @@ const options = {
     './docs/responses.yml',
     './docs/definitions.yml',
     './index.js',
+    './controllers/auth.js',
+    './docs/documents.yml',
     './controllers/*.js'
   ]
 };

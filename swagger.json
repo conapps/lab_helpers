@@ -11,10 +11,10 @@
     "application/json",
     "text/html"
   ],
-  "host": "ansibletower.conatest.click",
-  "basePath": "/helpers/",
+  "host": "127.0.0.1:8081",
+  "basePath": "",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "SecretAuthentication": {
@@ -368,7 +368,7 @@
         }
       }
     },
-    "/api/v1/documents/{id}": {
+    "/api/v1/documents/{id}/": {
       "get": {
         "summary": "Devuelve un documento según su 'id'.",
         "parameters": [
