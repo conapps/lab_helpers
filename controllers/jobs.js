@@ -194,6 +194,9 @@ router.get(
 
     var stream = await awx.getJobStdout(id, { format, dark });
 
+    if (format.indexOf('txt') > -1 || format.indexOf('html'))
+      return res.status(200).send(stream);
+
     return utils.handleSuccess(res, stream);
   })
 );

@@ -92,23 +92,20 @@ async function getJobStdout(jobId, { format, dark } = {}) {
 }
 
 async function launchJobTemplate(name, extraVars) {
-  try {
-    const id = await getJobTemplateIDByName(name);
-    const url = `${API}/api/v2/job_templates/${id}/launch/`;
+  const id = await getJobTemplateIDByName(name);
+  const url = `${API}/api/v2/job_templates/${id}/launch/`;
 
-    const { data } = await axios.post(
-      url,
-      {
-        extra_vars: extraVars
-      },
-      CONFIG
-    );
+  console.log(url);
 
-    return data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  const { data } = await axios.post(
+    url,
+    {
+      extra_vars: extraVars
+    },
+    CONFIG
+  );
+
+  return data;
 }
 /**
  * Gets a job_template by its name.

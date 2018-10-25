@@ -170,14 +170,25 @@ app.use(
   require('./controllers/jobs.js')
 );
 /** Error Handler */
-if (process.env.NODE_ENV === 'development') {
-  app.use(errorHandler());
-} else {
-  app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).send('Server Error');
-  });
-}
+app.use((err, req, res) => {
+  console.log(err.name);
+  var error = {
+    name: err.name
+  };
+  if (err.message);
+  {
+    console.log(err.message);
+    error.message = err.message;
+  }
+  if (err.response && err.response.data) {
+    console.log(err.response.data);
+    error.data = err.response.data;
+  }
+  if (err.stack) {
+    console.log(err.stack);
+  }
+  res.status(500).json(error);
+});
 /** Start the Express Server **/
 app.listen(app.get('port'), () => {
   console.log(
