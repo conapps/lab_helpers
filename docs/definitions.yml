@@ -296,6 +296,7 @@ definitions:
         type: string
         pattern: '^(/http?s:\/\/[^/ ]*)+/?$'
         example: 'https://example.com/diagrama.png'
+  
   Labs:
     type: object
     description: Metadatos asociados a un Laboratorio
@@ -309,9 +310,62 @@ definitions:
       type:
         type: string
         enum:
-          - documents
+          - labs
         description: Tipo del recurso.
-        example: document
+        example: labs
+      url:
+        $ref: '#/definitions/DocumentURL'
+      updated:
+        $ref: '#/definitions/UpdatedDate'
+  
+  Participant:
+    type: object
+    description: Participante
+    properties:
+      name:
+        type: string
+        example: Juan Perez
+        description: Nombre del participante
+      email:
+        type: string
+        example: 'jperez@exmple.com'
+        description: Email del participante
+      company:
+        type: string
+        example: 'Example S.A.'
+        description: Empresa a la que pertenece el participante
+      awsRegion:
+        type: string
+        example: us-east-1
+        description: Nombre de la región en AWS donde se ejecutara el Pod de este participante.
+      pod:
+        type: integer
+        example: 1
+        description: Número de Pod asociado al participante.
+      status:
+        description: Estado del pod del participante
+        type: string
+        enum:
+          - up
+          - down
+        example: 'down'
+  
+  Participants:
+    type: object
+    description: Metadatos asociados a un Participante
+    properties:
+      created:
+        $ref: '#/definitions/CreatedDate'
+      data:
+        $ref: '#/definitions/Participant'
+      id:
+        $ref: '#/definitions/ID'
+      type:
+        type: string
+        enum:
+          - participant
+        description: Tipo del recurso.
+        example: participant
       url:
         $ref: '#/definitions/DocumentURL'
       updated:
@@ -332,7 +386,7 @@ definitions:
         enum:
           - documents
         description: Tipo del recurso.
-        example: document
+        example: documents
       url:
         $ref: '#/definitions/DocumentURL'
       updated:
