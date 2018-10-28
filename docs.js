@@ -51,6 +51,7 @@ const options = {
     './controllers/auth.js',
     './docs/documents.yml',
     './docs/labs.yml',
+    './docs/participants.yml',
     './controllers/*.js'
   ]
 };

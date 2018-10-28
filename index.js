@@ -174,6 +174,12 @@ app.use(
   passport.authenticate('jwt', { session: false }),
   require('./controllers/labs.js')
 );
+/** Participants Routes */
+app.use(
+  '/api/v1/participants/',
+  passport.authenticate('jwt', { session: false }),
+  require('./controllers/participants.js')
+);
 /** Error Handler */
 app.use((err, req, res, next) => {
   console.log(err.name);

@@ -22,5 +22,6 @@ db.defaults({
   jobs: [],
   labs: [],
   refreshTokens: [],
-  users: []
+  users: [],
+  participants: []
 }).write();
