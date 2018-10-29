@@ -296,7 +296,12 @@ definitions:
         type: string
         pattern: '^(/http?s:\/\/[^/ ]*)+/?$'
         example: 'https://example.com/diagrama.png'
-  
+      participants:
+        description: Lista de IDS correspondientes a los participantes del curso.
+        type: array
+        items:
+          $ref: '#/definitions/ID'
+        
   Labs:
     type: object
     description: Metadatos asociados a un Laboratorio

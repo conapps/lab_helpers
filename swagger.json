@@ -11,10 +11,10 @@
     "application/json",
     "text/html"
   ],
-  "host": "ansibletower.conatest.click",
-  "basePath": "/helpers/",
+  "host": "127.0.0.1:8081",
+  "basePath": "",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "SecretAuthentication": {
@@ -1724,6 +1724,13 @@
           "type": "string",
           "pattern": "^(/http?s:\\/\\/[^/ ]*)+/?$",
           "example": "https://example.com/diagrama.png"
+        },
+        "participants": {
+          "description": "Lista de IDS correspondientes a los participantes del curso.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID"
+          }
         }
       }
     },
