@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "Lab Helpers",
-    "version": "1.15.1",
+    "version": "1.15.2",
     "description": "API que acompaña a Ansible Tower para levantar ambientes de desarrollo durante los workshops de DevOps 101 de Conatel, y otras instancias."
   },
   "consumes": [
