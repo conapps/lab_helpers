@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
   const lab = labs.get(labId);
 
   labs.update(lab.id, {
-    participants: union(lab.participants, [participant.id])
+    participants: union(lab.data.participants, [participant.id])
   });
 
   return utils.handleSuccess(res, participant);
