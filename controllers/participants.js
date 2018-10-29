@@ -12,28 +12,6 @@ const router = express.Router();
 /** Exports */
 exports = module.exports = router;
 
-/** Routes **/
-router.post('/', (req, res) => {
-  const body = req.body;
-
-  if (body === undefined) return utils.handleError(res, '"body" is undefined');
-
-  const labId = body.labId;
-
-  if (labId === undefined)
-    return utils.handleError(res, '"labId" is undefined');
-
-  const participant = participants.create(body);
-
-  const lab = labs.get(labId);
-
-  labs.update(lab.id, {
-    participants: union(lab.data.participants, [participant.id])
-  });
-
-  return utils.handleSuccess(res, participant);
-});
-
 /** CRUD Routes */
 crudController(router, participants, {
   type: 'participants',
