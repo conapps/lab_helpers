@@ -7,9 +7,19 @@ const db = require('../modules/db.js');
 const utils = require('../modules/utils.js');
 
 exports = module.exports = function({ type } = {}) {
-  function index(sortBy, offset, limit) {
-    return db
-      .get(type)
+  function index({ sortBy, offset, limit, filterBy, filterValue }) {
+    let pointer = db.get(type);
+
+    if (filterBy !== undefined && filterValue !== undefined) {
+      console.log(filterBy, filterValue);
+      pointer = pointer.filter({
+        data: {
+          [filterBy]: filterValue
+        }
+      });
+    }
+
+    return pointer
       .sortBy(sortBy)
       .slice(offset, offset + limit)
       .value();

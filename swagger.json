@@ -11,10 +11,10 @@
     "application/json",
     "text/html"
   ],
-  "host": "ansibletower.conatest.click",
-  "basePath": "/helpers/",
+  "host": "127.0.0.1:8081",
+  "basePath": "",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "SecretAuthentication": {
@@ -293,6 +293,18 @@
             "type": "string",
             "default": "id",
             "description": "Valor de la variable por la cual se ordenan los resultados.\n"
+          },
+          {
+            "in": "query",
+            "name": "filterBy",
+            "type": "string",
+            "description": "Nombre de la llave sobre la cual filtrar los resultados."
+          },
+          {
+            "in": "query",
+            "name": "filterValue",
+            "type": "string",
+            "description": "Valor que se debe aplicar al filtro."
           }
         ],
         "security": [
@@ -760,6 +772,18 @@
             "type": "string",
             "default": "id",
             "description": "Valor de la variable por la cual se ordenan los resultados.\n"
+          },
+          {
+            "in": "query",
+            "name": "filterBy",
+            "type": "string",
+            "description": "Nombre de la llave sobre la cual filtrar los resultados."
+          },
+          {
+            "in": "query",
+            "name": "filterValue",
+            "type": "string",
+            "description": "Valor que se debe aplicar al filtro."
           }
         ],
         "security": [

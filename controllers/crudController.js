@@ -20,7 +20,13 @@ function crudController(app, model, options = {}) {
   const OFFSET = options.offset || 0;
   /** Index */
   app.get('/', (req, res) => {
-    let { limit = LIMIT, sortBy = SORT_BY, offset = OFFSET } = req.query || {};
+    let {
+      limit = LIMIT,
+      sortBy = SORT_BY,
+      offset = OFFSET,
+      filterBy,
+      filterValue
+    } = req.query || {};
 
     limit = +limit;
     offset = +offset;
@@ -32,7 +38,7 @@ function crudController(app, model, options = {}) {
     if (limit > MAX_LIMIT) limit = MAX_COUNT;
     if (limit < MIN_LIMIT) limit = MIN_COUNT;
 
-    const items = model.index(sortBy, offset, limit);
+    const items = model.index({ sortBy, offset, limit, filterBy, filterValue });
     const count = model.count;
 
     let next = null;
