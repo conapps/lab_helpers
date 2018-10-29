@@ -20,6 +20,14 @@ paths:
           default: id
           description: >
             Valor de la variable por la cual se ordenan los resultados.
+        - in: query
+          name: filterBy
+          type: string
+          description: Nombre de la llave sobre la cual filtrar los resultados.
+        - in: query
+          name: filterValue
+          type: string
+          description: Valor que se debe aplicar al filtro.
       security:
         - JWTTokenAuthentication: []
       tags:
