@@ -153,31 +153,31 @@ app.use('/api/auth/', require('./controllers/auth.js'));
 /** Upload Routes */
 app.use(
   '/api/v1/uploads/',
-  passport.authenticate('jwt', { session: false }),
+//  passport.authenticate('jwt', { session: false }),
   require('./controllers/uploads.js')
 );
 /** Documents Routes */
 app.use(
   '/api/v1/documents/',
-  passport.authenticate('jwt', { session: false }),
+//  passport.authenticate('jwt', { session: false }),
   require('./controllers/documents.js')
 );
 /** Jobs Routes */
 app.use(
   '/api/v1/jobs/',
-  passport.authenticate('jwt', { session: false }),
+//  passport.authenticate('jwt', { session: false }),
   require('./controllers/jobs.js')
 );
 /** Labs Routes */
 app.use(
   '/api/v1/labs/',
-  passport.authenticate('jwt', { session: false }),
+//  passport.authenticate('jwt', { session: false }),
   require('./controllers/labs.js')
 );
 /** Participants Routes */
 app.use(
   '/api/v1/participants/',
-  passport.authenticate('jwt', { session: false }),
+//  passport.authenticate('jwt', { session: false }),
   require('./controllers/participants.js')
 );
 /** Error Handler */
